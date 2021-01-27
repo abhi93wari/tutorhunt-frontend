@@ -11,7 +11,7 @@ export default class Footer extends Component {
             <Navbar class='navbar-custom' fixed="bottom" bg='secondary' variant="">
                 <Container>
                     <Col lg={12} className='text-center' >
-                        <div>{fullYear}-{fullYear+1}, All Rights Reserved by Someone</div>
+                        <div>{fullYear}-{fullYear+1}, All Rights Reserved</div>
                     </Col>
                 </Container>
             </Navbar>

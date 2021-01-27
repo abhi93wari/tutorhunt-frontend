@@ -11,14 +11,21 @@ async function loginUser(credentials) {
     fetch('http://localhost:8080/authenticate', {
       method: 'POST',
       headers: {
-        
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(payload)
     })
       .then(res => res.json())
-      .then((data) => {console.log(data.email);
-                        console.log(data.token);});
+      .then((data) => {
+          if(data.token !== 'T'){
+            console.log(data.token);
+            
+          }
+          else{
+            console.log("BAD CREDENTIALS");
+          }
+        }
+        )
    }
    
 export default class Login extends Component {
