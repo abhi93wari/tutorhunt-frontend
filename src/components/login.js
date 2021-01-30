@@ -1,51 +1,62 @@
 import React, { Component} from 'react';
 import { BrowserRouter as  Switch, Route } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import SignUp from "./signup.js";
 
-async function loginUser(credentials) {
-    const payload={
-        username:credentials.username,
-        password: credentials.password
-    }
-    console.log(payload.username);
-    fetch('http://localhost:8080/authenticate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    })
-      .then(res => res.json())
-      .then((data) => {
-          if(data.token !== 'T'){
-            console.log(data.token);
-            
-          }
-          else{
-            console.log("BAD CREDENTIALS");
-          }
-        }
-        )
-   }
+
    
 export default class Login extends Component {
 
           constructor(props) {
             super(props);
             this.handleSubmit=this.handleSubmit.bind(this);
+            
             this.state = {
               username:'',
-              password:''
+              password:'',
+              loggedInStatus:'LOGGED_IN'
             };
           }
+          history=useHistory;
+          loginUser(credentials) {
+            const payload={
+                username:credentials.username,
+                password: credentials.password
+            }
+            console.log(payload.username);
+            fetch('http://localhost:8080/authenticate', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(payload)
+            })
+              .then(res => res.json())
+              .then((data) => {
+                  if(data.token !== 'T'){
+                   // this.props.handleSuccessfulAuth(data);
+                   //handleSuccessfulAuth={this.handleSuccessfulAuth}
+                    this.setState.loggedInStatus="LOGGED_IN";
+                    this.props.history.push("/dashboard");
+                    
+                  }
+                  else{
+                    alert("Bad Credentials...Try again");
+                  }
+                }
+                )
+           }
+          
           
             
          handleSubmit = async e => {
            e.preventDefault();
-          loginUser({
-             username:this.state.username,
-             password:this.state.password
-           });
+          // loginUser({
+          //    username:this.state.username,
+          //    password:this.state.password
+          //  });
+            this.loginUser({username:this.state.username,
+            password:this.state.password});
            
          }
   
@@ -53,7 +64,7 @@ export default class Login extends Component {
 
 
         return (
-            <div class='card-title  mt-3'>
+            <div class='card-title mt-3'>
           
             <form onSubmit={this.handleSubmit}>
                 
