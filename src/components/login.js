@@ -1,6 +1,5 @@
 import React, { Component} from 'react';
-import { BrowserRouter as  Switch, Route } from "react-router-dom";
-import {useHistory} from "react-router-dom";
+import {useHistory,BrowserRouter as  Switch, Route } from "react-router-dom";
 import SignUp from "./signup.js";
 
 
@@ -24,7 +23,7 @@ export default class Login extends Component {
                 password: credentials.password
             }
             console.log(payload.username);
-            fetch('http://localhost:8080/authenticate', {
+            fetch('http://localhost:8082/authenticate', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
