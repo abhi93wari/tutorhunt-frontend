@@ -17,34 +17,60 @@ export default class Login extends Component {
             };
           }
           history=useHistory;
-          loginUser(credentials) {
+          async loginUser(credentials) {
             const payload={
                 username:credentials.username,
                 password: credentials.password
             }
             console.log(payload.username);
-            fetch('http://localhost:8082/authenticate', {
+
+
+            let data = await fetch('http://localhost:8082/api/studnet_login', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify(payload)
-            })
-              .then(res => res.json())
-              .then((data) => {
-                  if(data.token !== 'T'){
-                   // this.props.handleSuccessfulAuth(data);
-                   //handleSuccessfulAuth={this.handleSuccessfulAuth}
-                    this.setState.loggedInStatus="LOGGED_IN";
-                    this.props.history.push("/dashboard");
+            });
+
+
+            let res = await data.json();
+            console.log(res);
+
+            if(res.token=="T"){
+              alert("Incorect username/password");
+            }
+            else{
+              this.setState.loggedInStatus="LOGGED_IN";
+              this.props.history.push("/dashboard");
+            }
+            }
+
+
+
+
+          //   fetch('http://localhost:8082/authenticate', {
+          //     method: 'POST',
+          //     headers: {
+          //       'Content-Type': 'application/json'
+          //     },
+          //     body: JSON.stringify(payload)
+          //   })
+          //     .then(res => res.json())
+          //     .then((data) => {
+          //         if(data.token !== 'T'){
+          //          // this.props.handleSuccessfulAuth(data);
+          //          //handleSuccessfulAuth={this.handleSuccessfulAuth}
+          //           this.setState.loggedInStatus="LOGGED_IN";
+          //           this.props.history.push("/dashboard");
                     
-                  }
-                  else{
-                    alert("Bad Credentials...Try again");
-                  }
-                }
-                )
-           }
+          //         }
+          //         else{
+          //           alert("Bad Credentials...Try again");
+          //         }
+          //       }
+          //       )
+          //  }
           
           
             

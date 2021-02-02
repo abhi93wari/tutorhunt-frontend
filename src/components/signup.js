@@ -18,35 +18,53 @@ export default class SignUp extends Component {
         };
       }
       history=useHistory;
-      loginUser(info) {
+      async loginUser(info) {
         const payload={
             username:info.username,
             name:info.name,
             password: info.password,
-            email:info.email
+            Email:info.Email
         }
-        console.log(payload.username,payload.email);
-        fetch('http://localhost:8082/register', {
+        console.log(payload);
+        let data = await fetch('http://localhost:8082/api/studnet_signup', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(payload)
-        })
+        });
+
+
+        let res = await data.json();
+        console.log(res);
+
+        if(res.token=="T"){
+          alert("User already exists");
+        }
+        else{
+          this.props.history.push("/");
+        }
+
+        //if(res.token)
+
+
+
+        //console.log(data);
+       // console.log(data.body.json());
           // .then(res => res.json())
-          .then((data) => {
-              if(data !== 'registered'){
-               // this.props.handleSuccessfulAuth(data);
-               //handleSuccessfulAuth={this.handleSuccessfulAuth}
+          // .then((data) => {
+          //     if(data !== 'registered'){
+          //      // this.props.handleSuccessfulAuth(data);
+          //      //handleSuccessfulAuth={this.handleSuccessfulAuth}
                
-                this.props.history.push("/");
+          //       this.props.history.push("/");
                 
-              }
-              else{
-                alert("Invalid data entered...");
-              }
-            }
-            )
+          //     }
+          //     else{
+          //      
+          //     }
+          //   }
+          //   )
        }
       
       
