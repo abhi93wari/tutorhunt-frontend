@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {useHistory,BrowserRouter as Switch, Route,Link} from "react-router-dom";
-import Login from "./login.js";
+import LoginTutor from "./login_tutor.js";
 import Footer from "./footer.js";
 
 export default class SignUp extends Component {
@@ -24,7 +24,8 @@ export default class SignUp extends Component {
             username:info.username,
             name:info.name,
             password: info.password,
-            email:info.email
+            email:info.email,
+            role:info.role
         }
         console.log(payload.username,payload.email);
         fetch('http://localhost:8082/register', {
@@ -40,7 +41,7 @@ export default class SignUp extends Component {
                // this.props.handleSuccessfulAuth(data);
                //handleSuccessfulAuth={this.handleSuccessfulAuth}
                
-                this.props.history.push("/sign-in");
+                this.props.history.push("/sign-in-tutor");
                 
               }
               else{
@@ -62,7 +63,8 @@ export default class SignUp extends Component {
             username:this.state.username,
             name:this.state.name,
             password:this.state.password,
-            email:this.state.email
+            email:this.state.email,
+            role:"tutor"
         });
        
      }
@@ -76,10 +78,10 @@ export default class SignUp extends Component {
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <Link className="nav-link"  to={"/sign-in"}>Login</Link>
+                <Link className="nav-link"  to={"/sign-in-tutor"}>Login</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link"  to={"/sign-up"}>Sign-Up</Link>
+                <Link className="nav-link"  to={"/sign-up-tutor"}>Sign-Up</Link>
               </li>
             </ul>
           </div>
@@ -114,11 +116,11 @@ export default class SignUp extends Component {
 
                 <button type="submit" className="btn btn-primary btn-block">Sign-Up</button>
                 <p className="forgot-password text-right">
-                    <a href="/sign-in">Already registered ? Sign-In</a>
+                    <a href="/sign-in-tutor">Already registered ? Sign-In</a>
                 </p>
 
                 <Switch>
-                    <Route path="/sign-in" component={Login} />
+                    <Route path="/sign-in-tutor" component={LoginTutor} />
                 </Switch>
             </form>
             </div>
