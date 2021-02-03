@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import {useHistory,BrowserRouter as Switch, Route,Link} from "react-router-dom";
+import {useHistory,BrowserRouter as Switch, Route} from "react-router-dom";
 import Login from "./login.js";
-import Footer from "./footer.js";
 
 export default class SignUp extends Component {
 
@@ -20,7 +19,7 @@ export default class SignUp extends Component {
         };
       }
       history=useHistory;
-      loginUser(info) {
+      async loginUser(info) {
         const payload={
             username:info.username,
             name:info.name,
@@ -28,28 +27,30 @@ export default class SignUp extends Component {
             email:info.email,
             role:info.role
         }
+<<<<<<< HEAD
         console.log(payload.username,payload.email);
         fetch('http://localhost:8082/api/signup', {
+=======
+        console.log(payload);
+        let data = await fetch('http://localhost:8082/api/studnet_signup', {
+>>>>>>> cd6e134b4714f03f68015dd7cb67743382b6201c
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(payload)
-        })
-          // .then(res => res.json())
-          .then((data) => {
-              if(data !== 'registered'){
-               // this.props.handleSuccessfulAuth(data);
-               //handleSuccessfulAuth={this.handleSuccessfulAuth}
-               
-                this.props.history.push("/sign-in");
-                
-              }
-              else{
-                alert("Invalid data entered...");
-              }
-            }
-            )
+        });
+
+
+        let res = await data.json();
+        console.log(res);
+
+        if(res.token==="T"){
+          alert("User already exists");
+        }
+        else{
+          this.props.history.push("/sign-in");
+        }
        }
       
       
@@ -72,26 +73,6 @@ export default class SignUp extends Component {
 
     render() {
         return (
-          <div className='App' id='root'>
-          <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-        <div className="container">
-          {/* <Link className="navbar-brand" to={"/sign-in"}></Link> */}
-          <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link className="nav-link"  to={"/sign-in"}>Login</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link"  to={"/sign-up"}>Sign-Up</Link>
-              </li>
-            </ul>
-          </div>
-          <Footer />
-        </div>
-      </nav>
-          
-            <div className="auth-wrapper">
-            <div className="auth-inner">
             <form onSubmit={this.handleSubmit}>
                 <h3>Sign Up</h3>
 
@@ -124,9 +105,6 @@ export default class SignUp extends Component {
                     <Route path="/sign-in" component={Login} />
                 </Switch>
             </form>
-            </div>
-            </div>
-            </div>
         );
     }
 }
