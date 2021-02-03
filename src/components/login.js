@@ -2,10 +2,10 @@ import React, { Component} from 'react';
 import {useHistory,BrowserRouter as  Switch, Route,Link } from "react-router-dom";
 import SignUp from "./signup.js";
 import Footer from "./footer.js";
-
+import {connect} from "react-redux";
 
    
-export default class Login extends Component {
+class Login extends Component {
 
           constructor(props) {
             super(props);
@@ -14,17 +14,18 @@ export default class Login extends Component {
             this.state = {
               username:'',
               password:'',
-              loggedInStatus:'LOGGED_IN'
+              role:''
             };
           }
           history=useHistory;
           loginUser(credentials) {
             const payload={
                 username:credentials.username,
-                password: credentials.password
+                password: credentials.password,
+                role:credentials.role
             }
             console.log(payload.username);
-            fetch('http://localhost:8082/authenticate', {
+            fetch('http://localhost:8082/api/signin', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -34,9 +35,12 @@ export default class Login extends Component {
               .then(res => res.json())
               .then((data) => {
                   if(data.token !== 'T'){
-                   // this.props.handleSuccessfulAuth(data);
-                   //handleSuccessfulAuth={this.handleSuccessfulAuth}
-                    this.setState.loggedInStatus="LOGGED_IN";
+                   // this.setState.loggedInStatus="LOGGED_IN";
+                    this.props.changeName(data.name);
+                    this.props.changeToken(data.token)
+                    this.props.changeUser(data.username)
+                    this.props.changeRole(data.role)
+                    this.props.changeEmail(data.email)
                     this.props.history.push("/dashboard");
                     
                   }
@@ -56,7 +60,8 @@ export default class Login extends Component {
           //    password:this.state.password
           //  });
             this.loginUser({username:this.state.username,
-            password:this.state.password});
+            password:this.state.password,
+            role:'student'});
            
          }
   
@@ -131,3 +136,62 @@ export default class Login extends Component {
         );
     }
 }
+
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    changeName:(name)=>{
+      dispatch(
+       
+          {
+            "type":"CHANGE_NAME",
+           "payload":name
+          }
+        
+      )
+    },
+    changeToken:(token)=>{
+      dispatch(
+       
+        {
+          "type":"CHANGE_TOKEN",
+         "payload":token
+        }
+      
+    )
+    },
+    changeEmail:(email)=>{
+      dispatch(
+       
+          {
+            "type":"CHANGE_EMAIL",
+           "payload":email
+          }
+        
+      )
+    },
+    changeRole:(role)=>{
+      dispatch(
+       
+          {
+            "type":"CHANGE_ROLE",
+           "payload":role
+          }
+        
+      )
+    },
+    changeUser:(username)=>{
+      dispatch(
+       
+          {
+            "type":"CHANGE_USER",
+           "payload":username
+          }
+        
+      )
+    },
+  }
+}
+
+
+
+export default connect(null,mapDispatchToProps)(Login)

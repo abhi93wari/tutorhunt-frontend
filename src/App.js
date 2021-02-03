@@ -7,7 +7,7 @@ import Front from "./components/front.js"
 import SignUp from "./components/signup.js";
 import Home from "./components/Home.js";
 import Dashboard from "./components/dashboard.js";
-import Login from './components/login';
+import Login from './components/login.js';
 import LoginTutor from "./components/login_tutor.js";
 import SignUp_Tutor from "./components/signup_tutor.js";
 // import { render } from '@testing-library/react';

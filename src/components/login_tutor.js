@@ -14,17 +14,18 @@ export default class Login extends Component {
             this.state = {
               username:'',
               password:'',
-              loggedInStatus:'LOGGED_IN'
+              role:''
             };
           }
           history=useHistory;
           loginUser(credentials) {
             const payload={
                 username:credentials.username,
-                password: credentials.password
+                password: credentials.password,
+                role:credentials.role
             }
             console.log(payload.username);
-            fetch('http://localhost:8082/authenticate', {
+            fetch('http://localhost:8082/api/signin', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -56,7 +57,8 @@ export default class Login extends Component {
           //    password:this.state.password
           //  });
             this.loginUser({username:this.state.username,
-            password:this.state.password});
+            password:this.state.password,
+            role:"tutor"});
            
          }
   

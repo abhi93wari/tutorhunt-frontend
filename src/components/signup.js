@@ -15,7 +15,8 @@ export default class SignUp extends Component {
           name:'',
           password:'',
           email:'',
-          loggedInStatus:'LOGGED_IN'
+          role:''
+          
         };
       }
       history=useHistory;
@@ -24,10 +25,11 @@ export default class SignUp extends Component {
             username:info.username,
             name:info.name,
             password: info.password,
-            email:info.email
+            email:info.email,
+            role:info.role
         }
         console.log(payload.username,payload.email);
-        fetch('http://localhost:8082/register', {
+        fetch('http://localhost:8082/api/signup', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -62,7 +64,8 @@ export default class SignUp extends Component {
             username:this.state.username,
             name:this.state.name,
             password:this.state.password,
-            email:this.state.email
+            email:this.state.email,
+            role:'student'
         });
        
      }
