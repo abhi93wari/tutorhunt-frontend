@@ -42,7 +42,7 @@ export default class SignUp extends Component {
           alert("User already exists");
         }
         else{
-          this.props.history.push("/");
+          this.props.history.push("/sign-in");
         }
        }
       

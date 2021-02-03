@@ -3,9 +3,11 @@ import {useHistory,BrowserRouter as  Switch, Route,Link } from "react-router-dom
 import SignUp from "./signup.js";
 import Footer from "./footer.js";
 
+import {connect} from "react-redux";
+
 
    
-export default class Login extends Component {
+class Login extends Component {
 
           constructor(props) {
             super(props);
@@ -43,7 +45,11 @@ export default class Login extends Component {
             }
             else{
               this.setState.loggedInStatus="LOGGED_IN";
+              this.props.changeName(payload.username);
+              this.props.changeToken(res.token)
               this.props.history.push("/dashboard");
+
+
             }
             }
 
@@ -157,3 +163,34 @@ export default class Login extends Component {
         );
     }
 }
+
+
+
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    changeName:(name)=>{
+      dispatch(
+       
+          {
+            "type":"CHANGE_NAME",
+           "payload":name
+          }
+        
+      )
+    },
+    changeToken:(token)=>{
+      dispatch(
+       
+        {
+          "type":"CHANGE_TOKEN",
+         "payload":token
+        }
+      
+    )
+    }
+  }
+}
+
+
+
+export default connect(null,mapDispatchToProps)(Login)
