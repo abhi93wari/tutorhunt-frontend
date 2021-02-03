@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 import {useHistory,BrowserRouter as  Switch, Route,Link } from "react-router-dom";
-import SignUp from "./signup.js";
+import SignUp_Tutor from "./signup_tutor.js";
 import Footer from "./footer.js";
 
 
@@ -18,60 +18,34 @@ export default class Login extends Component {
             };
           }
           history=useHistory;
-          async loginUser(credentials) {
+          loginUser(credentials) {
             const payload={
                 username:credentials.username,
                 password: credentials.password
             }
             console.log(payload.username);
-
-
-            let data = await fetch('http://localhost:8082/api/studnet_login', {
+            fetch('http://localhost:8082/authenticate', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify(payload)
-            });
-
-
-            let res = await data.json();
-            console.log(res);
-
-            if(res.token=="T"){
-              alert("Incorect username/password");
-            }
-            else{
-              this.setState.loggedInStatus="LOGGED_IN";
-              this.props.history.push("/dashboard");
-            }
-            }
-
-
-
-
-          //   fetch('http://localhost:8082/authenticate', {
-          //     method: 'POST',
-          //     headers: {
-          //       'Content-Type': 'application/json'
-          //     },
-          //     body: JSON.stringify(payload)
-          //   })
-          //     .then(res => res.json())
-          //     .then((data) => {
-          //         if(data.token !== 'T'){
-          //          // this.props.handleSuccessfulAuth(data);
-          //          //handleSuccessfulAuth={this.handleSuccessfulAuth}
-          //           this.setState.loggedInStatus="LOGGED_IN";
-          //           this.props.history.push("/dashboard");
+            })
+              .then(res => res.json())
+              .then((data) => {
+                  if(data.token !== 'T'){
+                   // this.props.handleSuccessfulAuth(data);
+                   //handleSuccessfulAuth={this.handleSuccessfulAuth}
+                    this.setState.loggedInStatus="LOGGED_IN";
+                    this.props.history.push("/dashboard");
                     
-          //         }
-          //         else{
-          //           alert("Bad Credentials...Try again");
-          //         }
-          //       }
-          //       )
-          //  }
+                  }
+                  else{
+                    alert("Bad Credentials...Try again");
+                  }
+                }
+                )
+           }
           
           
             
@@ -97,10 +71,10 @@ export default class Login extends Component {
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <Link className="nav-link"  to={"/sign-in"}>Login</Link>
+                <Link className="nav-link"  to={"/sign-in-tutor"}>Login</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link"  to={"/sign-up"}>Sign-Up</Link>
+                <Link className="nav-link"  to={"/sign-up-tutor"}>Sign-Up</Link>
               </li>
             </ul>
           </div>
@@ -136,7 +110,7 @@ export default class Login extends Component {
                 <button type="submit" className="btn btn-primary btn-block" background-color="#ff4516" >LOGIN</button>
                 <div>
                 <p className="forgot-password text-center" >
-                  <a href="/sign-up">Not Registered ? Sign-Up</a> 
+                  <a href="/sign-up-tutor">Not Registered ? Sign-Up</a> 
                 </p>
                
                 <p className="forgot-password text-center"> 
@@ -144,7 +118,7 @@ export default class Login extends Component {
                 </p>
                 </div>
                 <Switch>
-                    <Route path="/sign-up" component={SignUp} />
+                    <Route path="/sign-up-tutor" component={SignUp_Tutor} />
                     
                 </Switch>
             </form>

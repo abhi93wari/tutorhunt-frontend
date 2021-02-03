@@ -3,50 +3,53 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import {  BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import Login from "./components/login.js";
+import Front from "./components/front.js"
 import SignUp from "./components/signup.js";
 import Home from "./components/Home.js";
 import Dashboard from "./components/dashboard.js";
-import Footer from "./components/footer.js";
-import { render } from '@testing-library/react';
+import Login from './components/login';
+import LoginTutor from "./components/login_tutor.js";
+import SignUp_Tutor from "./components/signup_tutor.js";
+// import { render } from '@testing-library/react';
 
 export default class App extends Component{
   constructor(){
     super();
 
     this.state={
-      loggedInStatus:"LOGGED_IN"
+      loggedInStatus:"LOGGED_IN",
+      message:""
     };
     
   }
+  
+  callbackFunction = (childData) => {
+        this.setState({message: childData})
+  }
   render(){
   return (<Router>
-    <div className="App">
-      <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-        <div className="container">
-          {/* <Link className="navbar-brand" to={"/sign-in"}></Link> */}
-          <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link className="nav-link"  to={"/sign-in"}>Login</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link"  to={"/sign-up"}>Sign-Up</Link>
-              </li>
-            </ul>
-          </div>
-          <Footer />
-        </div>
-      </nav>
-
-      <div className="auth-wrapper">
-        <div className="auth-inner">
+    <div>
           <Switch>
-            <Route exact path='/' component={Login} />
+            <Route exact path='/' render={props => (
+                <Front
+                  {...props}
+                  parentCallback = {this.callbackFunction}
+                  />
+                  )} />
             <Route exact
               path={"/sign-in"}
               render={props => (
-                <Home
+                <Login
+                  {...props}
+                  //handleLogin={this.handleLogin}
+                  // handleLogout={this.handleLogout}
+                  loggedInStatus={this.state.loggedInStatus}
+                />
+              )} />
+              <Route exact
+              path={"/sign-in-tutor"}
+              render={props => (
+                <LoginTutor
                   {...props}
                   //handleLogin={this.handleLogin}
                   // handleLogout={this.handleLogout}
@@ -54,6 +57,7 @@ export default class App extends Component{
                 />
               )} />
             <Route path="/sign-up" component={SignUp} />
+            <Route path="/sign-up-tutor" component={SignUp_Tutor} />
             <Route exact
               path={"/dashboard"}
               render={props => (
@@ -64,9 +68,9 @@ export default class App extends Component{
                   )}
                   />
           </Switch>
-        </div>
-      </div>
+        
     </div></Router>
   );
 }
 }
+
