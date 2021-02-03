@@ -13,7 +13,7 @@ class dashboard extends Component{
           <div> 
             <h2>Name:{this.props.myname}</h2>
             <h2>Username:{this.props.username}</h2>
-            <h2>Email:{this.props.email}</h2>
+            <h2>Email:{this.props.myemail}</h2>
             <h2>Role:{this.props.role}</h2>
           </div>
         </div>

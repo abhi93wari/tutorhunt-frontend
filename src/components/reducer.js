@@ -20,6 +20,21 @@ const reducer = (state = iState,action)=>{
                 ...state,
                 "token":action.payload
             }
+        case "CHANGE_USER":
+            return {
+                ...state,
+                "username":action.payload
+            }
+        case "CHANGE_EMAIL":
+            return {
+                ...state,
+                "email":action.payload
+            }
+        case "CHANGE_ROLE":
+            return {
+                ...state,
+                "role":action.payload
+            }
 
         default:
             return state;

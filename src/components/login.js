@@ -45,11 +45,12 @@ class Login extends Component {
             }
             else{
               this.setState.loggedInStatus="LOGGED_IN";
-              this.props.changeName(payload.username);
+              this.props.changeName(res.name);
               this.props.changeToken(res.token)
+              this.props.changeUser(res.username)
+              this.props.changeRole(res.role)
+              this.props.changeEmail(res.email)
               this.props.history.push("/dashboard");
-
-
             }
             }
 
@@ -187,7 +188,37 @@ const mapDispatchToProps = (dispatch)=>{
         }
       
     )
-    }
+    },
+    changeEmail:(email)=>{
+      dispatch(
+       
+          {
+            "type":"CHANGE_EMAIL",
+           "payload":email
+          }
+        
+      )
+    },
+    changeRole:(role)=>{
+      dispatch(
+       
+          {
+            "type":"CHANGE_ROLE",
+           "payload":role
+          }
+        
+      )
+    },
+    changeUser:(username)=>{
+      dispatch(
+       
+          {
+            "type":"CHANGE_USER",
+           "payload":username
+          }
+        
+      )
+    },
   }
 }
 
