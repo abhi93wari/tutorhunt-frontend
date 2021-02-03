@@ -23,7 +23,7 @@ export default class SignUp extends Component {
             username:info.username,
             name:info.name,
             password: info.password,
-            Email:info.Email
+            email:info.email
         }
         console.log(payload);
         let data = await fetch('http://localhost:8082/api/studnet_signup', {
