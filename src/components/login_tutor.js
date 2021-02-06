@@ -34,10 +34,8 @@ export default class Login extends Component {
             })
               .then(res => res.json())
               .then((data) => {
-                  if(data.token !== 'T'){
-                   // this.props.handleSuccessfulAuth(data);
-                   //handleSuccessfulAuth={this.handleSuccessfulAuth}
-                    this.setState.loggedInStatus="LOGGED_IN";
+                  if(data.jwttoken !== 'T'){
+                   
                     this.props.history.push("/dashboard");
                     
                   }

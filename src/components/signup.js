@@ -28,7 +28,7 @@ export default class SignUp extends Component {
             role:info.role
         }
         console.log(payload.username,payload.email);
-        fetch('http://localhost:8082/api/signup', {
+        let data = await fetch('http://localhost:8082/api/signup', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -38,11 +38,12 @@ export default class SignUp extends Component {
 
 
         let res = await data.json();
-        console.log(res);
+       // console.log(res);
 
-        if(res.token==="T"){
+        if(res.jwttoken === "T"){
           alert("User already exists");
         }
+        
         else{
           this.props.history.push("/sign-in");
         }
@@ -68,7 +69,12 @@ export default class SignUp extends Component {
 
     render() {
         return (
+
+          <div className="auth-wrapper">
+            <div className="auth-inner">
+            <div class='card-title mt-3'>
             <form onSubmit={this.handleSubmit}>
+              
                 <h3>Sign Up</h3>
 
                 <div className="form-group">
@@ -100,6 +106,9 @@ export default class SignUp extends Component {
                     <Route path="/sign-in" component={Login} />
                 </Switch>
             </form>
+            </div>
+            </div>
+            </div>
         );
     }
 }

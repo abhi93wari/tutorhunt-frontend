@@ -2,13 +2,7 @@ import React, { Component} from 'react';
 import {useHistory,BrowserRouter as  Switch, Route,Link } from "react-router-dom";
 import SignUp from "./signup.js";
 import Footer from "./footer.js";
-<<<<<<< HEAD
 import {connect} from "react-redux";
-=======
-
-import {connect} from "react-redux";
-
->>>>>>> cd6e134b4714f03f68015dd7cb67743382b6201c
 
    
 class Login extends Component {
@@ -24,7 +18,7 @@ class Login extends Component {
             };
           }
           history=useHistory;
-          async loginUser(credentials) {
+          loginUser(credentials) {
             const payload={
                 username:credentials.username,
                 password: credentials.password,
@@ -32,75 +26,31 @@ class Login extends Component {
             }
             console.log(payload.username);
             fetch('http://localhost:8082/api/signin', {
-=======
-
-
-            let data = await fetch('http://localhost:8082/api/studnet_login', {
->>>>>>> cd6e134b4714f03f68015dd7cb67743382b6201c
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify(payload)
-<<<<<<< HEAD
             })
               .then(res => res.json())
               .then((data) => {
                   if(data.token !== 'T'){
                    // this.setState.loggedInStatus="LOGGED_IN";
+                    console.log(data.jwttoken);
                     this.props.changeName(data.name);
                     this.props.changeToken(data.token)
                     this.props.changeUser(data.username)
                     this.props.changeRole(data.role)
                     this.props.changeEmail(data.email)
                     this.props.history.push("/dashboard");
-=======
-            });
-
-
-            let res = await data.json();
-            console.log(res);
-
-            if(res.token=="T"){
-              alert("Incorect username/password");
-            }
-            else{
-              this.setState.loggedInStatus="LOGGED_IN";
-              this.props.changeName(res.name);
-              this.props.changeToken(res.token)
-              this.props.changeUser(res.username)
-              this.props.changeRole(res.role)
-              this.props.changeEmail(res.email)
-              this.props.history.push("/dashboard");
-            }
-            }
-
-
-
-
-          //   fetch('http://localhost:8082/authenticate', {
-          //     method: 'POST',
-          //     headers: {
-          //       'Content-Type': 'application/json'
-          //     },
-          //     body: JSON.stringify(payload)
-          //   })
-          //     .then(res => res.json())
-          //     .then((data) => {
-          //         if(data.token !== 'T'){
-          //          // this.props.handleSuccessfulAuth(data);
-          //          //handleSuccessfulAuth={this.handleSuccessfulAuth}
-          //           this.setState.loggedInStatus="LOGGED_IN";
-          //           this.props.history.push("/dashboard");
->>>>>>> cd6e134b4714f03f68015dd7cb67743382b6201c
                     
-          //         }
-          //         else{
-          //           alert("Bad Credentials...Try again");
-          //         }
-          //       }
-          //       )
-          //  }
+                  }
+                  else{
+                    alert("Bad Credentials...Try again");
+                  }
+                }
+                )
+           }
           
           
             
@@ -188,11 +138,6 @@ class Login extends Component {
     }
 }
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> cd6e134b4714f03f68015dd7cb67743382b6201c
 const mapDispatchToProps = (dispatch)=>{
   return {
     changeName:(name)=>{
@@ -210,7 +155,7 @@ const mapDispatchToProps = (dispatch)=>{
        
         {
           "type":"CHANGE_TOKEN",
-         "payload":token
+          "payload":token
         }
       
     )
@@ -227,12 +172,10 @@ const mapDispatchToProps = (dispatch)=>{
     },
     changeRole:(role)=>{
       dispatch(
-       
           {
             "type":"CHANGE_ROLE",
            "payload":role
           }
-        
       )
     },
     changeUser:(username)=>{
