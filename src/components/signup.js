@@ -27,13 +27,8 @@ export default class SignUp extends Component {
             email:info.email,
             role:info.role
         }
-<<<<<<< HEAD
         console.log(payload.username,payload.email);
         fetch('http://localhost:8082/api/signup', {
-=======
-        console.log(payload);
-        let data = await fetch('http://localhost:8082/api/studnet_signup', {
->>>>>>> cd6e134b4714f03f68015dd7cb67743382b6201c
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

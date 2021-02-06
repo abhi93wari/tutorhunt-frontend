@@ -31,7 +31,6 @@ class Login extends Component {
                 role:credentials.role
             }
             console.log(payload.username);
-<<<<<<< HEAD
             fetch('http://localhost:8082/api/signin', {
 =======
 
