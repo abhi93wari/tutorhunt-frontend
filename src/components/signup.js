@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import {useHistory,BrowserRouter as Switch, Route} from "react-router-dom";
+import {useHistory,BrowserRouter as Switch, Route, Link} from "react-router-dom";
 import Login from "./login.js";
+import Footer from "./footer.js";
 
 export default class SignUp extends Component {
 
@@ -69,6 +70,23 @@ export default class SignUp extends Component {
 
     render() {
         return (
+            <div className='App' id='root'>
+            <nav className="navbar navbar-expand-lg navbar-light fixed-top">
+          <div className="container">
+            {/* <Link className="navbar-brand" to={"/sign-in"}></Link> */}
+            <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+              <ul className="navbar-nav ml-auto">
+                <li className="nav-item">
+                  <Link className="nav-link"  to={"/sign-in-tutor"}>Login</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link"  to={"/sign-up-tutor"}>Sign-Up</Link>
+                </li>
+              </ul>
+            </div>
+            <Footer />
+          </div>
+        </nav>
 
           <div className="auth-wrapper">
             <div className="auth-inner">
@@ -106,6 +124,7 @@ export default class SignUp extends Component {
                     <Route path="/sign-in" component={Login} />
                 </Switch>
             </form>
+            </div>
             </div>
             </div>
             </div>
