@@ -36,7 +36,7 @@ class Login extends Component {
               .then((data) => {
                   if(data.token !== 'T'){
                    // this.setState.loggedInStatus="LOGGED_IN";
-                    console.log(data.jwttoken);
+//                    console.log(data.jwttoken);
                     this.props.changeName(data.name);
                     this.props.changeToken(data.token)
                     this.props.changeUser(data.username)
