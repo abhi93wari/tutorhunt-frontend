@@ -27,7 +27,7 @@ body, html, .auth-wrapper {
   height: 100%;
 }
 #root{
-  background: url(BG.jpg) no-repeat center center fixed;
+  /* background: url(BG.jpg) no-repeat center center fixed; */
   width: 100%;
   height: 100%;
 }
@@ -154,7 +154,22 @@ body, html, .auth-wrapper {
   .form-wrapper{
     display: flex;
     justify-content: center;
-    flex-direction: column;
-    margin-top: 5%;
+    flex-direction : column;
+    margin-top: 10%;
     text-align: left;
+    width: 800px;
+    margin: auto;
+    background-color:transparent;
+    justify-content: center;
+    padding: 40px 55px 45px 55px;
+    border-radius: 15px;
+    transition: all .3s;
+  }
+
+  .submit-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    
   }

@@ -24,8 +24,8 @@ class Login extends Component {
                 password: credentials.password,
                 role:credentials.role
             }
-            console.log(payload.username);
-            fetch('http://localhost:8082/api/signin', {
+            console.log(payload.role);
+            fetch('http://localhost:8086/login', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ class Login extends Component {
             })
               .then(res => res.json())
               .then((data) => {
-                  if(data.token !== 'T'){
+                  if(data.jwttoken !== 'T'){
                    // this.setState.loggedInStatus="LOGGED_IN";
                     console.log(data.jwttoken);
                     this.props.changeName(data.name);

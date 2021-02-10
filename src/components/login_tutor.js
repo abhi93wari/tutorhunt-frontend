@@ -56,7 +56,7 @@ export default class Login extends Component {
           //  });
             this.loginUser({username:this.state.username,
             password:this.state.password,
-            role:"tutor"});
+            role:'tutor'});
            
          }
   

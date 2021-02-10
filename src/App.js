@@ -3,7 +3,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import {  BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import Front from "./components/front.js"
+import Front from "./components/front2.js"
 import SignUp from "./components/signup.js";
 import Home from "./components/Home.js";
 import Dashboard from "./components/dashboard.js";
@@ -11,6 +11,7 @@ import Login from './components/login.js';
 import LoginTutor from "./components/login_tutor.js";
 import SignUp_Tutor from "./components/signup_tutor.js";
 // import { render } from '@testing-library/react';
+import SignIn from "./components/login2.js";
 
 export default class App extends Component{
   constructor(){
@@ -32,7 +33,7 @@ export default class App extends Component{
           <Route exact
             path={"/sign-in"}
             render={props => (
-              <Login
+              <SignIn setToken={this.setSessionState}
                 {...props}                
               />
             )} />

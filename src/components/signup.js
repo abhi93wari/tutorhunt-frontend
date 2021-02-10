@@ -29,7 +29,7 @@ export default class SignUp extends Component {
             role:info.role
         }
         console.log(payload.username,payload.email);
-        let data = await fetch('http://localhost:8082/api/signup', {
+        let data = await fetch('http://localhost:8086/signup', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -70,7 +70,7 @@ export default class SignUp extends Component {
 
     render() {
         return (
-            <div className='App' id='root'>
+            <div className='App' >
             <nav className="navbar navbar-expand-lg navbar-light fixed-top">
           <div className="container">
             {/* <Link className="navbar-brand" to={"/sign-in"}></Link> */}
