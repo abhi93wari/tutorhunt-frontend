@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import Fuse from 'fuse.js';
 
 import axios from 'axios'
-import {Button,Grid,AppBar,Toolbar,IconButton,Typography,Container, CardContent,Card,CardMedia,TextField} from '@material-ui/core'
+import {Button,Grid,AppBar,Toolbar,IconButton,Typography,Container, CardContent,Card,CardMedia,TextField,CircularProgress} from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles ,useTheme} from '@material-ui/core/styles';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
@@ -105,6 +105,8 @@ function Dashboard(){
 
   let fetchTutors = async ()=>{
 
+    setLoading(true);
+
     const fuse = new Fuse(subjects, {
       includeScore:true
     });
@@ -149,8 +151,6 @@ function Dashboard(){
 
   }
 
-
-
   let handleSearch = (e)=>{
 
     
@@ -159,31 +159,69 @@ function Dashboard(){
   }
 
   let searchTutor = ()=>{
+    
     console.log("current val on button click is  "+searchval);
+    setLoading(true);
     fetchTutors();
+    setLoading(false);
 
   }
   useEffect(() => {
     fetchSubjects();
   },[]);
 
-   const renderCard=(tutor,index) => {
-
-
-
-   }
-
-
+  
   const MainBody = () =>{
     if(loading){
       return (
+          <Grid container
+          direction="column"
+          justify="center"
+          alignItems="center"
+          spacing={2}
+        >
+
+        <Grid item xs = {6}>
           <h1>Loading...</h1>
+          
+        </Grid>
+          <Grid item xs = {8}>
+          <CircularProgress
+            size="140"
+            thickness={40}
+
+          >
+
+          </CircularProgress>
+          </Grid>
+
+        </Grid>
       );
+    }
+    else if(tutors.length==0){
+
+      return(
+        <Grid container
+          direction="column"
+          justify="center"
+          alignItems="center"
+          spacing={2}
+        >
+
+        <Grid item xs = {6}>
+          <h1>No Tutor found</h1>
+          
+          </Grid>
+
+        </Grid>
+      );
+
     }
 
     else{
       return(
-      tutors.map((tutor)=>{
+      tutors.map((tutor,index)=>{
+        //console.log("index is "+index);
 
         return(
 
@@ -192,6 +230,8 @@ function Dashboard(){
           justify="center"
           alignItems="center"
           spacing={2}
+          key = {index}
+        
         >
         
               <Grid item xs={1}>
@@ -203,7 +243,7 @@ function Dashboard(){
               <Grid item xs = {8}>
               <Card className={classes.root}>
               <Avatar className={classes.orange}>S</Avatar>
-              <div className={classes.details}>
+              <div className={classes.details} >
                 <CardContent className={classes.content}>
                   <Typography component="h5" variant="h5">
                     Name:{tutor.name}
@@ -225,6 +265,7 @@ function Dashboard(){
                    variant="contained"
                    color="primary"
                    size="large"
+                   onClick={() => console.log("Tutor with name "+tutor.name )}
                   >
                     Book
                   </Button>
@@ -268,7 +309,9 @@ function Dashboard(){
     <Typography variant="h6" className={classes.title}>
      TutorHunt
     </Typography>
-    <Button color="inherit">Logout</Button>
+    <Button color="inherit"
+    onClick={() => console.log("Logout Clicked")}
+    >Logout</Button>
   </Toolbar>
 </AppBar>
 
