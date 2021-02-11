@@ -1,5 +1,5 @@
 
-import React, { Component} from 'react';
+import React, { Component,useState,useEffect} from 'react';
 import { CardColumns, Form} from 'react-bootstrap';
 import {connect} from "react-redux";
 import Fuse from 'fuse.js';
@@ -14,6 +14,8 @@ import SkipNextIcon from '@material-ui/icons/SkipNext';
 import Rating from '@material-ui/lab/Rating';
 import Avatar from '@material-ui/core/Avatar';
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
+
+
 
 
 
@@ -69,16 +71,190 @@ const useStyles = makeStyles((theme) =>({
     backgroundColor: deepPurple[500],
   },
 }));
-
-
-
-
+ 
 
 function Dashboard(){
 
 
   const classes = useStyles();
   const theme = useTheme();
+
+  
+
+  const [loading,setLoading] = useState(false);
+  const [searchval,setSearchVal] = useState("");
+  const [subjects,setSubjects]  = useState([]);
+  const [tutors,setTutors] = useState([]);
+
+
+
+  const fetchSubjects = async ()=>{
+
+    setLoading(true);
+    console.log("fetching subjects");
+    //hit the api
+    let result = await axios.get("http://localhost:8086/allcourses");
+    let res = result.data;
+    console.log("data is "+res);
+    characters = res;
+    setSubjects(res);
+    setLoading(false);
+
+  }
+
+
+  let fetchTutors = async ()=>{
+
+    const fuse = new Fuse(subjects, {
+      includeScore:true
+    });
+    
+    const result  = fuse.search(searchval);
+    console.log(result);
+
+    let str;
+    for(let i in result){
+
+      if(typeof(str)=='undefined'){
+
+        str = result[i];
+
+      }
+
+      else if(result[i].score>str.score){
+        str = result[i];
+      }
+
+    }
+
+    let json  = {
+      "course":" "
+    }
+    
+    //now hit the api
+    if(typeof(str)=='undefined'){
+      console.log("no match found"); 
+    }
+    else{
+      console.log("search keyword is "+str.item);
+      json = {
+        "course":str.item
+      }
+    }
+
+    let result1 = await axios.post("http://localhost:8086/tutorlist",json);
+    let res = result1.data;
+    console.log("data is "+JSON.stringify(res));
+    setTutors(res);
+
+  }
+
+
+
+  let handleSearch = (e)=>{
+
+    
+    setSearchVal(e.target.value);
+    console.log("current val is "+searchval);
+  }
+
+  let searchTutor = ()=>{
+    console.log("current val on button click is  "+searchval);
+    fetchTutors();
+
+  }
+  useEffect(() => {
+    fetchSubjects();
+  },[]);
+
+   const renderCard=(tutor,index) => {
+
+
+
+   }
+
+
+  const MainBody = () =>{
+    if(loading){
+      return (
+          <h1>Loading...</h1>
+      );
+    }
+
+    else{
+      return(
+      tutors.map((tutor)=>{
+
+        return(
+
+          <Grid container
+          direction="row"
+          justify="center"
+          alignItems="center"
+          spacing={2}
+        >
+        
+              <Grid item xs={1}>
+        
+              
+        
+              </Grid>
+        
+              <Grid item xs = {8}>
+              <Card className={classes.root}>
+              <Avatar className={classes.orange}>S</Avatar>
+              <div className={classes.details}>
+                <CardContent className={classes.content}>
+                  <Typography component="h5" variant="h5">
+                    Name:{tutor.name}
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    Gender:{tutor.gender}
+                  </Typography>
+                  <Typography>
+                    Experience:5 Year
+                  </Typography>
+                  <Typography>
+                    Fee:RS 500/hour
+                  </Typography>
+                  
+                  <Rating name="disabled" value={3.5} disabled precision={0.5} size="small" />
+                </CardContent>
+                <div className={classes.controls}>
+                  <Button
+                   variant="contained"
+                   color="primary"
+                   size="large"
+                  >
+                    Book
+                  </Button>
+                </div>
+              </div>
+              
+            </Card>
+              </Grid>
+        
+        
+              <Grid item xs={2}>
+        
+              
+        
+              </Grid>
+        
+              
+            </Grid>
+        
+
+        );
+      
+
+        
+
+      }));
+    }
+  }
+
+
 
 
   return (
@@ -106,15 +282,15 @@ function Dashboard(){
 <Grid item xs={2}>
    
 </Grid>
-
-
-    <Grid item xs={5}>
+  <Grid item xs={5}>
 
     <TextField 
       variant="outlined"
       label="Enter the Subject"
       margin="normal"
-      fullWidth="true"
+      fullWidth
+      value={searchval} 
+      onChange={handleSearch}
     >
 
     </TextField>
@@ -134,6 +310,7 @@ function Dashboard(){
       variant="contained"
       color="primary"
       size="large"
+      onClick={searchTutor}
 
     >
 
@@ -151,98 +328,10 @@ function Dashboard(){
 
 
     </Grid>
+
+    <MainBody/>
    
-    <Grid container
-  direction="row"
-  justify="center"
-  alignItems="center"
-  spacing={2}
->
-
-      <Grid item xs={1}>
-
-      
-
-      </Grid>
-
-      <Grid item xs = {4}>
-      <Card className={classes.root}>
-      <Avatar className={classes.orange}>S</Avatar>
-      <div className={classes.details}>
-        <CardContent className={classes.content}>
-          <Typography component="h5" variant="h5">
-            Name:Sandeep Kumar Jha
-          </Typography>
-          <Typography variant="subtitle1">
-            Qualification:B.Tech
-          </Typography>
-          <Typography>
-            Experience:5 Years
-          </Typography>
-          <Typography>
-            Fee:RS 500/hour
-          </Typography>
-          
-          <Rating name="disabled" value={3.5} disabled precision={0.5} size="small" />
-        </CardContent>
-        <div className={classes.controls}>
-          <Button
-           variant="contained"
-           color="primary"
-           size="large"
-          >
-            Book
-          </Button>
-        </div>
-      </div>
-      
-    </Card>
-      </Grid>
-
-
-      <Grid item xs = {4}>
-      <Card className={classes.root}>
-      <Avatar className={classes.orange}>A</Avatar>
-      <div className={classes.details}>
-        <CardContent className={classes.content}>
-          <Typography component="h5" variant="h5">
-            Name:Abhinav Tiwari
-          </Typography>
-          <Typography variant="subtitle1">
-            Qualification:B.Tech
-          </Typography>
-          <Typography>
-            Experience:5 Years
-          </Typography>
-          <Typography>
-            Fee:RS 500/hour
-          </Typography>
-          
-          <Rating name="disabled" value={3.5} disabled precision={0.5} size="small" />
-        </CardContent>
-        <div className={classes.controls}>
-          <Button
-           variant="contained"
-           color="primary"
-           size="large"
-          >
-            Book
-          </Button>
-        </div>
-      </div>
-      
-    </Card>
-      </Grid>
-
-      <Grid item xs={2}>
-
-      
-
-      </Grid>
-
-      
-    </Grid>
-
+   
 
     </>
   );
