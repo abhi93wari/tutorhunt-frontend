@@ -1,5 +1,5 @@
 const iState = {
-    "name":"sandeep kumar jha",
+    "name":"sandeep jha",
     "email":"test@gmail.com",
     "role":"student",
     "token":"qwertyuiop",

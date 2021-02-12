@@ -15,6 +15,7 @@ import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Image from '../bgimage.jpg';
 import {useHistory} from 'react-router-dom';
+import {connect} from "react-redux";
 
 function Copyright() {
   return (
@@ -73,9 +74,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInTutor() {
+function SignInTutor(props) {
   const classes = useStyles();
-
+  const reducer = mapDispatchToProps();
   const [username,setusername]=useState('');
   const [password,setpassword]=useState('');
   const [role,setrole]=useState('tutor');
@@ -97,9 +98,8 @@ export default function SignInTutor() {
               .then(res => res.json())
               .then((data) => {
                   if(data.jwttoken !== 'T'){
-                   // this.setState.loggedInStatus="LOGGED_IN";
-                    console.log(data.jwttoken);
-                    // this.props.changeName(data.name);
+                    console.log(data.name);
+                    {props.changeName(data.name)};
                     // this.props.changeToken(data.token)
                     // this.props.changeUser(data.username)
                     // this.props.changeRole(data.role)
@@ -201,3 +201,60 @@ export default function SignInTutor() {
     </div>
   );
 }
+
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    changeName:(name)=>{
+      dispatch(
+       
+          {
+            "type":"CHANGE_NAME",
+           "payload":name
+          }
+        
+      )
+    },
+    changeToken:(token)=>{
+      dispatch(
+       
+        {
+          "type":"CHANGE_TOKEN",
+          "payload":token
+        }
+      
+    )
+    },
+    changeEmail:(email)=>{
+      dispatch(
+       
+          {
+            "type":"CHANGE_EMAIL",
+           "payload":email
+          }
+        
+      )
+    },
+    changeRole:(role)=>{
+      dispatch(
+          {
+            "type":"CHANGE_ROLE",
+           "payload":role
+          }
+      )
+    },
+    changeUser:(username)=>{
+      dispatch(
+       
+          {
+            "type":"CHANGE_USER",
+           "payload":username
+          }
+        
+      )
+    },
+  }
+}
+
+
+
+export default connect(null,mapDispatchToProps)(SignInTutor);

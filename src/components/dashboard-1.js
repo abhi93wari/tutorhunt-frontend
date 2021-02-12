@@ -163,11 +163,12 @@ class dashboard extends Component {
                     <div className="form-group">
                         <label>Gender</label>
                         <select name='gender' type="text" className="form-control" placeholder="Enter Gender" onChange={e => this.setState({gender:e.target.value})} required>
+                          <option value="#">select..</option>
                           <option value="male">Male</option>
                           <option value="female">Female</option>                     
                         </select>
                         
-                    </div>
+                    </div>  
 
                     <div className="form-group">
                         <label>Qualification</label>
@@ -189,9 +190,7 @@ class dashboard extends Component {
                     <button type="submit" className="btn btn-primary">Submit</button>
                     </div>
 
-                </form>
-                
-                
+                </form>                 
               </div>
             </div>
         </div>
