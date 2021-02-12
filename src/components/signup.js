@@ -70,7 +70,7 @@ export default class SignUp extends Component {
 
     render() {
         return (
-            <div className='App' >
+            <div className='App' id='root'>
             <nav className="navbar navbar-expand-lg navbar-light fixed-top">
           <div className="container">
             {/* <Link className="navbar-brand" to={"/sign-in"}></Link> */}

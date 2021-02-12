@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Image from '../bgimage.jpg';
+import {useHistory} from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -30,9 +31,14 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
 
+  '@global': {
+    body: {
+      backgroundImage:`url(${Image})`,
+      opacity:'1'
+    },
+  },
   root:{
       minHeight:'100vh',
-      backgroundImage:`url(${Image})`,
       border: 0,
       borderRadius: 3,
       backgroundSize:'cover'
@@ -50,7 +56,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor:'white'
+    backgroundColor:theme.palette.common.white,
+    marginTop:'10%',
+    borderRadius:'5%'
   },
   avatar: {
     margin: theme.spacing(1),
@@ -65,9 +73,61 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function SignInTutor() {
   const classes = useStyles();
 
+  const [username,setusername]=useState('');
+  const [password,setpassword]=useState('');
+  const [role,setrole]=useState('tutor');
+  let history=useHistory();
+          function loginUser(credentials) {
+            const payload={
+                username:credentials.username,
+                password: credentials.password,
+                role:credentials.role
+            }
+            console.log(payload.role);
+            fetch('http://localhost:8086/login', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(payload)
+            })
+              .then(res => res.json())
+              .then((data) => {
+                  if(data.jwttoken !== 'T'){
+                   // this.setState.loggedInStatus="LOGGED_IN";
+                    console.log(data.jwttoken);
+                    // this.props.changeName(data.name);
+                    // this.props.changeToken(data.token)
+                    // this.props.changeUser(data.username)
+                    // this.props.changeRole(data.role)
+                    // this.props.changeEmail(data.email)
+                    history.push("/dashboard");
+                    
+                  }
+                  else{
+                    alert("Bad Credentials...Try again");
+                  }
+                }
+                )
+           }
+          
+          
+            
+         function handleSubmit(e) {
+           e.preventDefault();
+          // loginUser({
+          //    username:this.state.username,
+          //    password:this.state.password
+          //  });
+            loginUser({username:username,
+            password:password,
+            role:role});
+           
+         }
+  
   return (
     <div className={classes.root}>
     
@@ -78,7 +138,7 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Sign in as Tutor
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -86,11 +146,12 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="username"
+            label="UserName"
+            name="username"
+            autoComplete="username"
             autoFocus
+            onChange={e => setusername(e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -102,6 +163,7 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={e => setpassword(e.target.value)}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -113,6 +175,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleSubmit}
           >
             Sign In
           </Button>

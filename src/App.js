@@ -6,12 +6,12 @@ import {  BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 import Front from "./components/front2.js"
 import SignUp from "./components/signup.js";
 import Home from "./components/Home.js";
-import Dashboard from "./components/dashboard.js";
+import Dashboard from "./components/Dashboard.js";
 import Login from './components/login.js';
-import LoginTutor from "./components/login_tutor.js";
+import SignInTutor from "./components/login-tutor2.js";
 import SignUp_Tutor from "./components/signup_tutor.js";
 // import { render } from '@testing-library/react';
-import SignIn from "./components/login2.js";
+import SignIn from "./components/login-student2.js";
 
 export default class App extends Component{
   constructor(){
@@ -31,7 +31,7 @@ export default class App extends Component{
                 />
                 )} />
           <Route exact
-            path={"/sign-in"}
+            path={"/sign-in-student"}
             render={props => (
               <SignIn setToken={this.setSessionState}
                 {...props}                
@@ -40,7 +40,7 @@ export default class App extends Component{
             <Route exact
             path={"/sign-in-tutor"}
             render={props => (
-              <LoginTutor
+              <SignInTutor
                 {...props}
               />
             )} />

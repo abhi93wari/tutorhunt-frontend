@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -10,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Image from '../bgimage.jpg';
-
+import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -64,6 +63,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Front() {
   const classes = useStyles();
+  
+  let history = useHistory();
+ 
+  function handletutor(e){
+      e.preventDefault();
+    //  this.setState({role:"tutor"});
+      history.push("/sign-in-tutor");
+  }
+  function handleStudent(e) {
+      e.preventDefault();
+      //this.setState({role:"student"});
+      history.push('/sign-in-student');
+  }
 
   return (
     <Paper className={classes.root}>
@@ -78,13 +90,14 @@ export default function Front() {
                 variant="contained"
                 color="primary"
                 size='large'
-                className={classes.button1}>
+                className={classes.button1}
+                onClick={handletutor}>
                 <Typography component="h1" variant="h5">
                     TUTOR
                 </Typography>
                 </Button>
            </Grid>
-           
+      
             <Grid item>
                 <Button
                 type="submit"
@@ -92,7 +105,8 @@ export default function Front() {
                 variant="contained"
                 color="secondary"
                 size='large'
-                className={classes.button2}>
+                className={classes.button2}
+                onClick={handleStudent}>
                 <Typography component="h1" variant="h5">
                     STUDENT
                 </Typography>

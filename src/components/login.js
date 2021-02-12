@@ -125,7 +125,6 @@ class Login extends Component {
                 </div>
                 <Switch>
                     <Route path="/sign-up" component={SignUp} />
-                    
                 </Switch>
             </form>
             </div>
