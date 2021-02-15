@@ -99,7 +99,9 @@ export default function SignIn() {
                   if(data.jwttoken !== 'T'){
                    // this.setState.loggedInStatus="LOGGED_IN";
                     console.log(data.jwttoken);
-                    // this.props.changeName(data.name);
+                    console.log(data.role);
+                    console.log(data.name);
+                    // props.changeName(data.name);
                     // this.props.changeToken(data.token)
                     // this.props.changeUser(data.username)
                     // this.props.changeRole(data.role)

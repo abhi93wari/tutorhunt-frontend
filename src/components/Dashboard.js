@@ -1,4 +1,5 @@
-import {React , useState} from 'react';
+import {React , useEffect, useState} from 'react';
+import {Redirect} from 'react-router-dom';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {Drawer,AppBar,Toolbar,List,CssBaseline,Typography,Divider,IconButton,ListItem,ListItemIcon,ListItemText} from '@material-ui/core';
@@ -13,6 +14,12 @@ import logo from './dash-icon.png';
 import Button from '@material-ui/core/Button';
 import { propTypes } from 'react-bootstrap/esm/Image';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
+import SettingsIcon from '@material-ui/icons/Settings';
+import HomeIcon from '@material-ui/icons/Home';
+import PeopleIcon from '@material-ui/icons/People';
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Card from '@material-ui/core/Card';
 
 const drawerWidth = 240;
@@ -80,7 +87,8 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(9) + 1,
     },
-    backgroundColor:'#F4F3eF',
+    backgroundColor:'#1F51FF',
+    // backgroundColor:'#F4F3eF',
   },
   toolbar: {
     display: 'flex',
@@ -98,9 +106,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 100, 10),
   },
   card: {
-    maxWidth: 1000,
-    marginLeft: 320,
-    marginTop: 50,
+    maxWidth: 'auto',
+    marginLeft: '20%',
+    marginTop: '3%',
+    marginRight:'20%',
     borderRadius: '2%'
   },
   
@@ -128,7 +137,7 @@ function MiniDrawer(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+  
   function loginUser(info) {
     const payload={
         name:props.myname,
@@ -147,16 +156,16 @@ function MiniDrawer(props) {
       },
       body: JSON.stringify(payload)
     })
-      // .then(res => res.json())
+      .then(res => res.json())
       .then((data) => {
-          
-          if(data !== 'Course_Registered'){
+          console.log(data.response);
+          if(data.response === 'Course_Registered'){
            
             alert("Course Registered Successfully");
             
           }
           else{
-            alert("Invalid data entered...");
+            alert("Course not registered successfully , invalid data entered...");
           }
         }
         )
@@ -176,7 +185,9 @@ function MiniDrawer(props) {
       document.courseform.reset();
     }
 
-
+    function onSelect(){
+      
+    }
 
   return (
     <div className={classes.root}>
@@ -201,10 +212,11 @@ function MiniDrawer(props) {
             <MenuIcon />
           </IconButton>
           <ThemeProvider theme={font}>
-          <img src={logo} style={{marginRight:'30px'}} />
+          <img src={logo} style={{marginRight:30}} />
           <Typography variant="h3" display='inline' gutterBottom>
             Tutor-Dashboard
           </Typography>
+          <SettingsIcon style={{marginLeft:'auto'}} gutterBottom/>
           </ThemeProvider>
         </Toolbar>
       </AppBar>
@@ -226,25 +238,47 @@ function MiniDrawer(props) {
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </div>
-        <Divider />
-        <List>
-          {['Add Course','Update Course','Students', 'TimeTable','Revenue'].map((text, index) => (
-            <ListItem button key={text}>
-              
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <BorderColorIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+        <Divider/>
+        
+        <List>           
+            <ListItem button onClick={onSelect}>
+              <ListItemIcon style={{color:'white'}}><HomeIcon /></ListItemIcon>
+              <ListItemText primary="Home" />
             </ListItem>
-            
-          ))}
+            <ListItem button >
+              <ListItemIcon style={{color:'white'}}><InboxIcon /></ListItemIcon>
+              <ListItemText primary="Add Course" />
+            </ListItem>
+            <ListItem button >
+              <ListItemIcon style={{color:'white'}}><BorderColorIcon /></ListItemIcon>
+              <ListItemText primary="Update Course" />
+            </ListItem>
+            <ListItem button >
+              <ListItemIcon style={{color:'white'}}><PeopleIcon /></ListItemIcon>
+              <ListItemText primary="Students List" />
+            </ListItem>
+            <ListItem button >
+              <ListItemIcon style={{color:'white'}}><ScheduleIcon /></ListItemIcon>
+              <ListItemText primary="Timetable" />
+            </ListItem>                                                                           
         </List>
+
         <Divider />
-        <List>
-          {['View Profile', 'Update Profile','Logout'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <BorderColorIcon/>}</ListItemIcon>
-              <ListItemText primary={text} />
+        <Divider/>
+        
+        <List>           
+            <ListItem button >
+              <ListItemIcon style={{color:'white'}}><AccountCircleIcon /></ListItemIcon>
+              <ListItemText primary="View Profile" />
             </ListItem>
-          ))}
+            <ListItem button >
+              <ListItemIcon style={{color:'white'}}><BorderColorIcon /></ListItemIcon>
+              <ListItemText primary="Update Profile" />
+            </ListItem>
+            <ListItem button >
+              <ListItemIcon style={{color:'white'}}><ExitToAppIcon /></ListItemIcon>
+              <ListItemText primary="Logout" />
+            </ListItem>
         </List>
       </Drawer>
       <main className={classes.content}>

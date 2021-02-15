@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -104,6 +104,11 @@ function SignInTutor(props) {
                     // this.props.changeUser(data.username)
                     // this.props.changeRole(data.role)
                     // this.props.changeEmail(data.email)
+                    localStorage.setItem("token", JSON.stringify(data.jwttoken));
+                    localStorage.setItem("loginstatus", "true");
+                    // if(localStorage.getItem("token") === data.jwttoken){
+                      
+                    // }
                     history.push("/dashboard");
                     
                   }
@@ -114,7 +119,9 @@ function SignInTutor(props) {
                 )
            }
           
-          
+        useEffect(() => {
+          localStorage.removeItem("token");
+        });
             
          function handleSubmit(e) {
            e.preventDefault();

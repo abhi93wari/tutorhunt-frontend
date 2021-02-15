@@ -5,13 +5,14 @@ import {  BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 
 import Front from "./components/front2.js"
 import SignUp from "./components/signup.js";
-import Home from "./components/Home.js";
 import Dashboard from "./components/Dashboard.js";
 import Login from './components/login.js';
 import SignInTutor from "./components/login-tutor2.js";
 import SignUp_Tutor from "./components/signup_tutor.js";
 // import { render } from '@testing-library/react';
 import SignIn from "./components/login-student2.js";
+import Protected from './components/Protected';
+import Protected2 from './components/Protected2';
 
 export default class App extends Component{
   constructor(){
@@ -37,21 +38,17 @@ export default class App extends Component{
                 {...props}                
               />
             )} />
-            <Route exact
-            path={"/sign-in-tutor"}
-            render={props => (
-              <SignInTutor
-                {...props}
+            <Protected exact
+              path={"/sign-in-tutor"}
+              component={SignInTutor}
               />
-            )} />
+            
           <Route path="/sign-up" component={SignUp} />
           <Route path="/sign-up-tutor" component={SignUp_Tutor} />
-          <Route exact
+          <Protected2 exact
             path={"/dashboard"}
-            render={props => (
-              <Dashboard
-                {...props} />
-                )}/>
+            component={Dashboard}
+            />
         </Switch>
         
       </div>

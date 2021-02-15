@@ -1,4 +1,4 @@
-import React from 'react';
+import {React , useEffect} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
@@ -66,14 +66,20 @@ export default function Front() {
   
   let history = useHistory();
  
+  useEffect(() => {
+    localStorage.clear();
+  });
+
   function handletutor(e){
       e.preventDefault();
     //  this.setState({role:"tutor"});
+    localStorage.setItem("role","tutor");
       history.push("/sign-in-tutor");
   }
   function handleStudent(e) {
       e.preventDefault();
       //this.setState({role:"student"});
+      localStorage.setItem("role","student");
       history.push('/sign-in-student');
   }
 
