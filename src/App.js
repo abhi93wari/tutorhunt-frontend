@@ -13,6 +13,9 @@ import SignUp_Tutor from "./components/signup_tutor.js";
 import SignIn from "./components/login-student2.js";
 import Protected from './components/Protected';
 import Protected2 from './components/Protected2';
+import Protected3 from './components/Protected3';
+import StudentDashboard from './components/dashboard-student';
+
 
 export default class App extends Component{
   constructor(){
@@ -31,13 +34,10 @@ export default class App extends Component{
                 {...props}
                 />
                 )} />
-          <Route exact
+          <Protected exact
             path={"/sign-in-student"}
-            render={props => (
-              <SignIn setToken={this.setSessionState}
-                {...props}                
-              />
-            )} />
+            component={SignIn} 
+            />
             <Protected exact
               path={"/sign-in-tutor"}
               component={SignInTutor}
@@ -49,6 +49,10 @@ export default class App extends Component{
             path={"/dashboard"}
             component={Dashboard}
             />
+          <Protected3 exact
+            path={"/dashboard-student"}
+            component={StudentDashboard}
+          />
         </Switch>
         
       </div>

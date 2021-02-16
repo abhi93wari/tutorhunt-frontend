@@ -21,6 +21,8 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Card from '@material-ui/core/Card';
+import AddCourse from './Tabs/AddCourseFragment';
+import HomeFragment from './Tabs/HomeFragment';
 
 const drawerWidth = 240;
 
@@ -121,14 +123,29 @@ function MiniDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
 
-  const [course_name,setcourse_name] = useState('');
-  const [age,setage] = useState(0);
-  const [gender,setgender] = useState('');
-  const [qualification,setqualification] = useState('');
-  const [cost,setcost] = useState(0);
-  const [objective,setobjective] = useState('');
-
+  
   const [open, setOpen] = useState(false);
+  const [fragment,setfragment] = useState('HOME');
+
+  const Logout=() => {
+    localStorage.removeItem('token');
+    window.location.href = '/sign-in-tutor';
+  }
+  const loadfragment = () => {
+    switch(fragment){
+      case "HOME":
+        return <HomeFragment />;
+
+      case 'AddCourse':
+        return <AddCourse />;
+
+        case 'Logout':
+           {Logout()};
+      
+      default :
+        break;
+    }
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -138,56 +155,6 @@ function MiniDrawer(props) {
     setOpen(false);
   };
   
-  function loginUser(info) {
-    const payload={
-        name:props.myname,
-        course_name:info.course_name,
-        age:info.age,
-        gender:info.gender,
-        qualification:info.qualification,
-        objective:info.objective,
-        cost:info.cost
-    }
-    console.log(payload.objective,payload.age);
-    fetch('http://localhost:8086/tutor', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    })
-      .then(res => res.json())
-      .then((data) => {
-          console.log(data.response);
-          if(data.response === 'Course_Registered'){
-           
-            alert("Course Registered Successfully");
-            
-          }
-          else{
-            alert("Course not registered successfully , invalid data entered...");
-          }
-        }
-        )
-   }
-  
-  
-   function handleSubmit(e) {
-      e.preventDefault();
-      loginUser({
-        course_name:course_name,
-        age:age,
-        gender:gender,
-        qualification:qualification,
-        objective:objective,
-        cost:cost
-      });
-      document.courseform.reset();
-    }
-
-    function onSelect(){
-      
-    }
 
   return (
     <div className={classes.root}>
@@ -241,11 +208,11 @@ function MiniDrawer(props) {
         <Divider/>
         
         <List>           
-            <ListItem button onClick={onSelect}>
+            <ListItem button onClick={e => setfragment('HOME')}>
               <ListItemIcon style={{color:'white'}}><HomeIcon /></ListItemIcon>
               <ListItemText primary="Home" />
             </ListItem>
-            <ListItem button >
+            <ListItem button onClick={e => setfragment('AddCourse')}>
               <ListItemIcon style={{color:'white'}}><InboxIcon /></ListItemIcon>
               <ListItemText primary="Add Course" />
             </ListItem>
@@ -275,7 +242,7 @@ function MiniDrawer(props) {
               <ListItemIcon style={{color:'white'}}><BorderColorIcon /></ListItemIcon>
               <ListItemText primary="Update Profile" />
             </ListItem>
-            <ListItem button >
+            <ListItem button onClick={e => setfragment('Logout')}>
               <ListItemIcon style={{color:'white'}}><ExitToAppIcon /></ListItemIcon>
               <ListItemText primary="Logout" />
             </ListItem>
@@ -283,71 +250,9 @@ function MiniDrawer(props) {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-          <Typography variant='h4'>Welcome {props.myname}</Typography>
-        <Typography>
-          <Card style={{backgroundColor:'#f4f3ef'}} className={classes.card} variant="outlined">
-            <form name='courseform'>
-                <Typography variant='h5' align='center'>ADD A COURSE</Typography>
-                
-                <div className='form-wrapper'>
-                <div className="form-group">
-                    <label>Course Name</label>
-                    <select name='course_name' type="text" className="form-control" placeholder="Enter course name" onChange={e => setcourse_name(e.target.value)} required>
-                      <option value="#">select..</option>
-                      <option value="Mathematics">Mathematics</option>
-                      <option value="Physics">Physics</option>
-                      <option value="Chemistry">Chemistry</option>
-                      <option value="ReactJs">ReactJs</option>
-                      <option value="SpringBoot">SpringBoot</option>                     
-                    </select>
-                </div>
-
-                <div className="form-group">
-                    <label>Age</label>
-                    <input name='age' type="number" className="form-control" placeholder="Enter Age" onChange={e => setage(e.target.value)} required/>
-                </div>
-
-                <div className="form-group">
-                    <label>Gender</label>
-                    <select name='gender' type="text" className="form-control" placeholder="Enter Gender" onChange={e => setgender(e.target.value)} required>
-                      <option value="#">select..</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>                     
-                    </select>
-                    
-                </div>
-
-                <div className="form-group">
-                    <label>Qualification</label>
-                    <input name='qualification' type="text" className="form-control" placeholder="Enter Qualification" onChange={e => setqualification(e.target.value)} required/>
-                </div>
-
-                <div className="form-group">
-                    <label>Cost (in Rs)</label>
-                    <input name='cost' type="number" pattern='[0-9]*' className="form-control" placeholder="Enter Cost of the course" onChange={e => setcost(e.target.value)} required/>
-                </div>
-
-                <div className="form-group">
-                    <label>Course Objectice</label>
-                    <input name='objective' type="text" className="form-control" placeholder="Enter Course Objective" onChange={e => setobjective(e.target.value)} required/>
-                </div>
-
-                </div>
-                <div className='submit-button'>
-                <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    size='large'
-                    className={classes.submit} onClick={handleSubmit}>submit</Button>
-                  
-                </div>
-                   
-            </form>
-            </Card>
-        </Typography>
-        <Typography paragraph>
-        </Typography>
+          {/* <Typography variant='h4'>Welcome {props.myname}</Typography> */}
+          {loadfragment()}
+      
       </main>
     </div>
   );
