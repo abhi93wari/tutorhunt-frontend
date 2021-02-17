@@ -117,7 +117,7 @@ function Dashboard(){
 
       }
 
-      else if(result[i].score>str.score){
+      else if(result[i].score<str.score){
         str = result[i];
       }
 
@@ -192,7 +192,7 @@ function Dashboard(){
         </Grid>
       );
     }
-    else if(tutors.length==0){
+    else if(tutors.length===0){
 
       return(
         <Grid container
@@ -236,7 +236,7 @@ function Dashboard(){
         
               <Grid item xs = {8}>
               <Card className={classes.root}>
-              <Avatar className={classes.orange}>S</Avatar>
+              <Avatar className={classes.orange}>{tutor.name.charAt(0)}</Avatar>
               <div className={classes.details} >
                 <CardContent className={classes.content}>
                   <Typography component="h5" variant="h5">
@@ -246,10 +246,13 @@ function Dashboard(){
                     Gender:{tutor.gender}
                   </Typography>
                   <Typography>
-                    Experience:5 Year
+                    Age:{tutor.age}
                   </Typography>
                   <Typography>
-                    Fee:RS 500/hour
+                    Qualification:{tutor.qualification}
+                  </Typography>
+                  <Typography>
+                    Fee:{tutor.fee}
                   </Typography>
                   
                   <Rating name="disabled" value={3.5} disabled precision={0.5} size="small" />
