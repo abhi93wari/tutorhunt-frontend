@@ -71,15 +71,18 @@ export default function Front() {
   });
 
   function handletutor(e){
-      e.preventDefault();
+      // e.preventDefault();
     //  this.setState({role:"tutor"});
     localStorage.setItem("role","tutor");
       history.push("/sign-in-tutor");
+      console.log("hello");
   }
   function handleStudent(e) {
-      e.preventDefault();
+      // e.preventDefault();
       //this.setState({role:"student"});
+
       localStorage.setItem("role","student");
+      console.log("hello student");
       history.push('/sign-in-student');
   }
 

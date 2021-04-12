@@ -1,14 +1,10 @@
 import React, { Component,useState,useEffect} from 'react';
-import { CardColumns, Form} from 'react-bootstrap';
 import {connect} from "react-redux";
 import Fuse from 'fuse.js';
 import axios from 'axios'
 import {Button,Grid,AppBar,Toolbar,IconButton,Typography,Container, CardContent,Card,CardMedia,TextField,CircularProgress} from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles ,useTheme} from '@material-ui/core/styles';
-import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import SkipNextIcon from '@material-ui/icons/SkipNext';
 import Rating from '@material-ui/lab/Rating';
 import Avatar from '@material-ui/core/Avatar';
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
@@ -67,7 +63,7 @@ function Dashboard(){
 
   const classes = useStyles();
   const theme = useTheme();
-
+  const [fragment,setfragment] = useState('');
   
 
   const [loading,setLoading] = useState(false);
@@ -79,9 +75,43 @@ function Dashboard(){
 
   const Logout=() => {
     localStorage.removeItem('token');
-    window.location.href = '/sign-in-student';
+    window.location.href = '/';
   }
 
+  const Booking=  (name,cid,props) => {                         
+    const payload={
+
+      name:name,
+      courseid:cid,  
+      
+  }
+    console.log(name);
+    console.log(cid);
+   
+    fetch('http://localhost:8086/courseobjective', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        })
+          .then(res => res.json())
+          .then((data) => {
+
+                console.log(data.response);
+                {props.changeObjective(data.response[0])};                  
+                 window.location.href = '/Booking';              
+              
+            }
+            )
+
+    // let result = await axios.get("http://localhost:8086/courseobjective");
+    // let res = result.data;
+    // console.log("data is "+res);
+    // result.json();
+    // {props.changeObjective(result.objective)};
+    // window.location.href = '/Booking';
+  }
   const fetchSubjects = async ()=>{
 
     setLoading(true);
@@ -117,7 +147,7 @@ function Dashboard(){
 
       }
 
-      else if(result[i].score>str.score){
+      else if(result[i].score<str.score){
         str = result[i];
       }
 
@@ -164,7 +194,8 @@ function Dashboard(){
     fetchSubjects();
   },[]);
 
-  
+
+
   const MainBody = () =>{
     if(loading){
       return (
@@ -192,18 +223,18 @@ function Dashboard(){
         </Grid>
       );
     }
-    else if(tutors.length==0){
+    else if(tutors.length===0){
 
       return(
         <Grid container
           direction="column"
-          justify="center"
+          justify="left"
           alignItems="center"
           spacing={2}
         >
 
-        <Grid item xs = {6}>
-          <h1>No Tutor found</h1>
+        <Grid item xs = {2}>
+          <h5>no tutor found.....</h5>
           
           </Grid>
 
@@ -236,7 +267,7 @@ function Dashboard(){
         
               <Grid item xs = {8}>
               <Card className={classes.root}>
-              <Avatar className={classes.orange}>S</Avatar>
+              <Avatar className={classes.orange}>{tutor.name.charAt(0)}</Avatar>
               <div className={classes.details} >
                 <CardContent className={classes.content}>
                   <Typography component="h5" variant="h5">
@@ -246,10 +277,13 @@ function Dashboard(){
                     Gender:{tutor.gender}
                   </Typography>
                   <Typography>
-                    Experience:5 Year
+                    Age:{tutor.age}
                   </Typography>
                   <Typography>
-                    Fee:RS 500/hour
+                    Qualification:{tutor.qualification}
+                  </Typography>
+                  <Typography>
+                    Fee:{tutor.fee}
                   </Typography>
                   
                   <Rating name="disabled" value={3.5} disabled precision={0.5} size="small" />
@@ -259,15 +293,17 @@ function Dashboard(){
                    variant="contained"
                    color="primary"
                    size="large"
-                   onClick={() => console.log("Tutor with name "+tutor.name )}
+                   onClick={() => Booking(tutor.name,tutor.course_id)}
                   >
                     Book
                   </Button>
                 </div>
               </div>
               
+
             </Card>
               </Grid>
+        
         
         
               <Grid item xs={2}>
@@ -305,7 +341,7 @@ function Dashboard(){
     </Typography>
     <Button color="inherit"
     onClick={() => {Logout()}}
-    >Logout</Button>
+    >logout</Button>
   </Toolbar>
 </AppBar>
 
@@ -356,7 +392,7 @@ function Dashboard(){
     </Button>
 
     </Grid>
-
+    
     <Grid item xs={2}>
 
       
@@ -376,15 +412,20 @@ function Dashboard(){
 
 }
 
-
-
-const mapStateToProps = (state)=> {
+const mapDispatchToProps = (dispatch)=>{
   return {
-    "myname":state.name,
-    "myemail":state.email,
-    "role":state.role,
-    "toekn":state.token,
-    "username":state.username
+    changeObjective:(objective)=>{
+      dispatch(
+       
+          {
+            "type":"CHANGE_OBJ",
+           "payload":objective
+          }
+        
+      )
+    }
+  }
 }
-}
-export default connect(mapStateToProps)(Dashboard);
+export default connect(null,mapDispatchToProps)(Dashboard);
+
+

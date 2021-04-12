@@ -15,6 +15,7 @@ import Protected from './components/Protected';
 import Protected2 from './components/Protected2';
 import Protected3 from './components/Protected3';
 import StudentDashboard from './components/dashboard-student';
+import Booking from './components/Tabs/Booking';
 
 
 export default class App extends Component{
@@ -52,6 +53,9 @@ export default class App extends Component{
           <Protected3 exact
             path={"/dashboard-student"}
             component={StudentDashboard}
+          />
+          <Route path={"/Booking"}
+            component={Booking}
           />
         </Switch>
         

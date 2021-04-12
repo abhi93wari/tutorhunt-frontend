@@ -3,7 +3,8 @@ const iState = {
     "email":"test@gmail.com",
     "role":"student",
     "token":"qwertyuiop",
-    "username":"thesandx"
+    "username":"thesandx",
+    "objective":"XYZ"
 }
 
 const reducer = (state = iState,action)=>{
@@ -34,6 +35,11 @@ const reducer = (state = iState,action)=>{
             return {
                 ...state,
                 "role":action.payload
+            }
+        case "CHANGE_OBJ":
+            return {
+                ...state,
+                "objective":action.payload
             }
 
         default:

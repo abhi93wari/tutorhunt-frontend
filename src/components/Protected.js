@@ -6,14 +6,6 @@ import Front from './front2';
 
 const Protected = ({component:Cmp,...rest}) => (
     <Route
-    {...rest}
-        render={(props) => (
-            localStorage.getItem('token')?(
-            <Cmp {...props}/>
-            ):
-            <Redirect to='/sign-in-tutor'/>
-        )
-        }
         
         {...rest}
         render={(props) => (

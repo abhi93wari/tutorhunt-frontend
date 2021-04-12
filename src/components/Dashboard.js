@@ -129,7 +129,7 @@ function MiniDrawer(props) {
 
   const Logout=() => {
     localStorage.removeItem('token');
-    window.location.href = '/sign-in-tutor';
+    window.location.href = '/';
   }
   const loadfragment = () => {
     switch(fragment){

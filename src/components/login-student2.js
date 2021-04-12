@@ -101,11 +101,7 @@ export default function SignIn() {
                     console.log(data.jwttoken);
                     console.log(data.role);
                     console.log(data.name);
-                    // props.changeName(data.name);
-                    // this.props.changeToken(data.token)
-                    // this.props.changeUser(data.username)
-                    // this.props.changeRole(data.role)
-                    // this.props.changeEmail(data.email)
+                    
                     localStorage.setItem("token", JSON.stringify(data.jwttoken));
                     history.push("/dashboard-student");
                     

@@ -81,43 +81,43 @@ function SignInTutor(props) {
   const [password,setpassword]=useState('');
   const [role,setrole]=useState('tutor');
   let history=useHistory();
-          function loginUser(credentials) {
-            const payload={
-                username:credentials.username,
-                password: credentials.password,
-                role:credentials.role
+      function loginUser(credentials) {
+        const payload={
+            username:credentials.username,
+            password: credentials.password,
+            role:credentials.role
+        }
+        console.log(payload.role);
+        fetch('http://localhost:8086/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        })
+          .then(res => res.json())
+          .then((data) => {
+              if(data.jwttoken !== 'T'){
+                console.log(data.name);
+                {props.changeName(data.name)};
+                // this.props.changeToken(data.token)
+                // this.props.changeUser(data.username)
+                // this.props.changeRole(data.role)
+                // this.props.changeEmail(data.email)
+                localStorage.setItem("token", JSON.stringify(data.jwttoken));
+                localStorage.setItem("loginstatus", "true");
+                // if(localStorage.getItem("token") === data.jwttoken){
+                  
+                // }
+                history.push("/dashboard");
+                
+              }
+              else{
+                alert("Bad Credentials...Try again");
+              }
             }
-            console.log(payload.role);
-            fetch('http://localhost:8086/login', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(payload)
-            })
-              .then(res => res.json())
-              .then((data) => {
-                  if(data.jwttoken !== 'T'){
-                    console.log(data.name);
-                    {props.changeName(data.name)};
-                    // this.props.changeToken(data.token)
-                    // this.props.changeUser(data.username)
-                    // this.props.changeRole(data.role)
-                    // this.props.changeEmail(data.email)
-                    localStorage.setItem("token", JSON.stringify(data.jwttoken));
-                    localStorage.setItem("loginstatus", "true");
-                    // if(localStorage.getItem("token") === data.jwttoken){
-                      
-                    // }
-                    history.push("/dashboard");
-                    
-                  }
-                  else{
-                    alert("Bad Credentials...Try again");
-                  }
-                }
-                )
-           }
+            )
+        }
           
         useEffect(() => {
           localStorage.removeItem("token");
