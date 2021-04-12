@@ -45,7 +45,7 @@ function AddCourse (props) {
             objective:info.objective,
             fee:info.fee
         }
-        console.log(payload.objective,payload.age);
+        console.log(JSON.stringify(payload));
         fetch('http://localhost:8086/tutor', {
           method: 'POST',
           headers: {

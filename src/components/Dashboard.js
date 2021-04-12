@@ -265,7 +265,7 @@ const mapStateToProps = (state)=> {
     "role":state.role,
     "token":state.token,
     "course_name":state.course_name
-}
+  }
 }
 
 export default connect(mapStateToProps)(MiniDrawer);
