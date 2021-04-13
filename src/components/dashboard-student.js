@@ -8,6 +8,7 @@ import { makeStyles ,useTheme} from '@material-ui/core/styles';
 import Rating from '@material-ui/lab/Rating';
 import Avatar from '@material-ui/core/Avatar';
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
+import {useHistory} from 'react-router-dom';
 
 let characters = []
 
@@ -58,7 +59,7 @@ const useStyles = makeStyles((theme) =>({
 }));
  
 
-function Dashboard(){
+function Dashboard(props){
 
 
   const classes = useStyles();
@@ -78,7 +79,8 @@ function Dashboard(){
     window.location.href = '/';
   }
 
-  const Booking=  (name,cid,props) => {                         
+  let history=useHistory();
+  const Booking=  (name,cid) => {                         
     const payload={
 
       name:name,
@@ -100,7 +102,7 @@ function Dashboard(){
 
                 console.log(data.response);
                 {props.changeObjective(data.response[0])};                  
-                 window.location.href = '/Booking';              
+                history.push("/Booking");              
               
             }
             )
@@ -285,6 +287,7 @@ function Dashboard(){
                   <Typography>
                     Fee:{tutor.fee}
                   </Typography>
+                  {props.changetutorid(tutor.tutor_id)}
                   
                   <Rating name="disabled" value={3.5} disabled precision={0.5} size="small" />
                 </CardContent>
@@ -420,10 +423,20 @@ const mapDispatchToProps = (dispatch)=>{
           {
             "type":"CHANGE_OBJ",
            "payload":objective
-          }
+          },
         
       )
-    }
+    },
+    changetutorid:(tutorid)=>{
+      dispatch(
+       
+          {
+            "type":"CHANGE_TUTORID",
+           "payload":tutorid
+          },
+        
+      )
+    },
   }
 }
 export default connect(null,mapDispatchToProps)(Dashboard);

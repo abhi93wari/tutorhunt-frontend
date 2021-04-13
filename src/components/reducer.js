@@ -4,7 +4,8 @@ const iState = {
     "role":"student",
     "token":"qwertyuiop",
     "username":"thesandx",
-    "objective":"XYZ"
+    "objective":"XYZ",
+    "tutorid":"123",
 }
 
 const reducer = (state = iState,action)=>{
@@ -40,6 +41,12 @@ const reducer = (state = iState,action)=>{
             return {
                 ...state,
                 "objective":action.payload
+            }
+
+        case "CHANGE_TUTORID":
+            return {
+                ...state,
+                "tutorid":action.payload
             }
 
         default:

@@ -1,20 +1,26 @@
 import {React , useEffect, useState} from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {Drawer,AppBar,Grid,Toolbar,List,CssBaseline,Typography,Divider,IconButton,ListItem,ListItemIcon,ListItemText} from '@material-ui/core';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import {connect} from "react-redux";
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
-
+import Box from '@material-ui/core/Box';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from "@date-io/date-fns"; 
+import moment from 'moment';
 
 const drawerWidth = 240;
 
-const font = createMuiTheme({
-  typography: {
-    fontFamily: [
-      '"Open Sans"', 'TitilliumWeb','Roboto'
-    ].join(','),
-  },});
+// const font = createMuiTheme({
+//   typography: {
+//     fontFamily: [
+//       '"Open Sans"', 'TitilliumWeb','Roboto'
+//     ].join(','),
+//   },});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +38,16 @@ const useStyles = makeStyles((theme) => ({
     color:'#1F51FF'
   },
   
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
+
   appBarShift: {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
@@ -68,7 +84,8 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '20%',
     marginTop: '3%',
     marginRight:'20%',
-    borderRadius: '2%'
+    borderRadius: '1%',
+    padding: '20px 20px',
   },
   toolbar: {
     display: 'flex',
@@ -91,18 +108,67 @@ const useStyles = makeStyles((theme) => ({
     marginTop:'10%',
     borderRadius:'5%'
   },
+  controls: {
+    display: 'flex',
+    alignItems: 'center',
+    paddingLeft: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+  },
 }));
-
 
 
 function BookingModule(props) {
   const classes = useStyles();
   const theme = useTheme();
 
+  const [selectedDate, setSelectedDate] = useState(new Date(''));
+  const [newdate, setnewdate] = useState('');
+
+  const handleDateChange = (date) => {
+    //console.log(date);
+    var abc = moment(date,'DD-MM-YYYY').format('DD-MM-YYYY');
+    setnewdate(abc.toString(abc));
+    console.log(newdate);
+    setSelectedDate(date);
+  };
+
   const Logout=() => {
     localStorage.removeItem('token');
     window.location.href = '/';
   }
+
+
+const SearchSlot=  (tutorid) => {                         
+  const payload={
+
+    tutor_id:tutorid,
+    date:newdate,  
+    
+}
+  console.log(tutorid);
+  console.log(newdate);
+  
+  fetch('http://localhost:8084/showSlots', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+        .then(res => res.json())
+        .then((data) => {
+
+              console.log(data);
+              
+              //  props.changeObjective(data.response[0]);                  
+              //  window.location.href = '/Booking';              
+            
+          }
+          )
+
+
+  }
+
 
   return (
     <div className={classes.root}>
@@ -119,10 +185,47 @@ function BookingModule(props) {
     
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Card style={{backgroundColor:'white'}} className={classes.card} variant="outlined">
-              <Typography> About the Course :</Typography>
+        <Card style={{backgroundColor:'white'}} className={classes.card} variant="outlined" m={3} pt={3}>
+              <Box mt={2} alignItems='center' justifyContent="center">
+                  <Typography align='center' variant='h3' display='block' color='primary'> Slot Booking </Typography>
+              </Box>
+
+              <Typography variant='h5' display='block'> About the Course :</Typography>
               <Typography> {props.objective} </Typography>
-              
+
+              <Box mt={8} alignItems='center' justifyContent="center">
+              <Typography> Select Date </Typography>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                  margin="normal"
+                  id="date-picker-dialog"
+                  // label="Select Date"
+                  format="dd/MM/yyyy"
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change date',
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+             </Box>
+              <Box mt={6} direction="column" alignItems="center" justify="center">
+                <Button
+                   variant="contained"
+                   color="primary"
+                   size="large"
+                   
+                  onClick={() => SearchSlot(props.tutorid)}
+                  >
+
+                    Search slot
+                  </Button>
+    
+              </Box>
+              <Box mt={6} direction="column" alignItems="center" justify="center">
+                <Typography variant='h5'>Available Slots :</Typography>
+              </Box>
+               
         </Card>
       
       </main>
@@ -135,8 +238,10 @@ function BookingModule(props) {
 
 const mapStateToProps = (state)=> {
   return {
-    "objective" : state.objective
+    "objective" : state.objective,
+    "tutorid"   : state.tutorid
 }
 }
 
 export default connect(mapStateToProps)(BookingModule);
+
