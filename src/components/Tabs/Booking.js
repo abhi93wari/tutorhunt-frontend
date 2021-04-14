@@ -123,6 +123,7 @@ function BookingModule(props) {
 
   const [selectedDate, setSelectedDate] = useState(new Date(''));
   const [newdate, setnewdate] = useState('');
+  const [slots,setSlots] = useState([]);
 
   const handleDateChange = (date) => {
     //console.log(date);
@@ -159,14 +160,68 @@ const SearchSlot=  (tutorid) => {
         .then((data) => {
 
               console.log(data);
+              setSlots(data);
               
               //  props.changeObjective(data.response[0]);                  
-              //  window.location.href = '/Booking';              
+              //  window.location.href = '/Booking';   
+
+
             
           }
           )
 
 
+  }
+
+
+
+  const SlotBody = () =>{
+    if(slots.length===0){
+
+      return(
+        <Grid container
+          direction="column"
+          justify="left"
+          alignItems="center"
+          spacing={2}
+        >
+
+        <Grid item xs = {2}>
+          <h5>no Slots available.....</h5>
+          
+          </Grid>
+
+        </Grid>
+      );
+
+    }
+
+    else{
+      return(
+      slots.map((slot,index)=>{
+        //console.log("index is "+index);
+
+        return(
+          <Grid item xs = {2}>
+              <Box mt={6} direction="column" alignItems="center" justify="center">
+              <Button
+                   variant="contained"
+                    color="primary"
+                   size="large"
+                   onClick={(data) => console.log()}
+                  >
+                    {slot}
+                  </Button>
+                  </Box>
+                  </Grid>
+
+        );
+      
+
+        
+
+      }));
+    }
   }
 
 
@@ -225,6 +280,9 @@ const SearchSlot=  (tutorid) => {
               <Box mt={6} direction="column" alignItems="center" justify="center">
                 <Typography variant='h5'>Available Slots :</Typography>
               </Box>
+
+              <SlotBody/>
+              
                
         </Card>
       
