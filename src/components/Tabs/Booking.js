@@ -12,6 +12,8 @@ import {
 } from '@material-ui/pickers';
 import DateFnsUtils from "@date-io/date-fns"; 
 import moment from 'moment';
+import Paper from '@material-ui/core/Paper';
+
 
 const drawerWidth = 240;
 
@@ -25,6 +27,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display:'flex',
+    flexGrow: 1,
   },
 
   appBar: {
@@ -106,7 +109,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     backgroundColor:theme.palette.common.white,
     marginTop:'10%',
-    borderRadius:'5%'
+    borderRadius:'5%',
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  
   },
   controls: {
     display: 'flex',
@@ -123,6 +130,8 @@ function BookingModule(props) {
 
   const [selectedDate, setSelectedDate] = useState(new Date(''));
   const [newdate, setnewdate] = useState('');
+  const [slots,setSlots] = useState([]);
+  const [time, settime] = useState('');
 
   const handleDateChange = (date) => {
     //console.log(date);
@@ -148,7 +157,7 @@ const SearchSlot=  (tutorid) => {
   console.log(tutorid);
   console.log(newdate);
   
-  fetch('http://localhost:8084/showSlots', {
+  fetch('http://localhost:8086/showTimeSlots', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -159,14 +168,117 @@ const SearchSlot=  (tutorid) => {
         .then((data) => {
 
               console.log(data);
+              setSlots(data);
               
+            
               //  props.changeObjective(data.response[0]);                  
-              //  window.location.href = '/Booking';              
+              //  window.location.href = '/Booking';   
+
+
             
           }
           )
 
 
+  }
+
+
+  const BookSlot=  (time,tutorid,id) => {                         
+    const payload={
+  
+      tutor_id:tutorid,
+      date:newdate,
+      time:time,
+      student_id:id  
+      
+  }
+  console.log(payload.tutor_id);
+  console.log(payload.student_id);
+  console.log(payload.date);
+  console.log(payload.time);
+   
+    fetch('http://localhost:8086/BookTimeSlots', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        })
+          .then(res => res.json())
+          .then((data) => {
+            
+              console.log(data.response);
+              if(data.response === 'booked'){
+               
+                alert("Slot Booked Successfully");
+                
+              }
+              else{
+                alert("Slot not Booked");
+              }
+                  
+                //  props.changeObjective(data.response[0]);                  
+                //  window.location.href = '/Booking';   
+  
+  
+              
+            }
+            )
+  
+  
+    }
+  
+
+  const handletime = (e) => {
+      const buttonValue = e.target.value;
+      console.log(buttonValue);
+      settime(buttonValue);
+      //BookSlot(e.target.value,props.tutorid);
+  }
+
+  const SlotBody = () =>{
+    if(slots.length===0){
+
+      return(
+        <Grid container
+          direction="column"
+          justify="left"
+          alignItems="center"
+          spacing={2}
+        >
+
+          <Typography variant='h6'>No slots available.....</Typography> 
+
+        </Grid>
+      );
+
+    }
+
+    else{
+      return(
+      slots.map((slot,index)=>{
+        //console.log("index is "+index);
+
+        return(
+          
+          
+            <Grid item xs={2} sm={2}>
+              
+              <input type="radio"
+                   value={slot}
+                   variant="contained"
+                   size="large"
+                   name="time"
+                   onClick={handletime}
+                  />
+                  {slot}
+              
+              </Grid> 
+
+        );
+    
+      }));
+    }
   }
 
 
@@ -225,6 +337,23 @@ const SearchSlot=  (tutorid) => {
               <Box mt={6} direction="column" alignItems="center" justify="center">
                 <Typography variant='h5'>Available Slots :</Typography>
               </Box>
+              
+              <Box mt={5} direction="column" alignItems="center" justify="center">
+              <Grid container spacing={6}>
+                <SlotBody/>
+              </Grid>
+              </Box>
+              <Box mt={5} direction="column" alignItems="center" justify="center">
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="large"                
+                    onClick={() => BookSlot(time,props.tutorid,props.id)}
+                  >
+                    Book Slot
+                </Button>
+              </Box>
+              
                
         </Card>
       
@@ -239,9 +368,9 @@ const SearchSlot=  (tutorid) => {
 const mapStateToProps = (state)=> {
   return {
     "objective" : state.objective,
-    "tutorid"   : state.tutorid
+    "tutorid"   : state.tutorid,
+    "id"        : state.id,
 }
 }
 
 export default connect(mapStateToProps)(BookingModule);
-

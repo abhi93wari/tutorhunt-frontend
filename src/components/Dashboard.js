@@ -23,6 +23,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Card from '@material-ui/core/Card';
 import AddCourse from './Tabs/AddCourseFragment';
 import HomeFragment from './Tabs/HomeFragment';
+import StudentList from './Tabs/StudentList';
 
 const drawerWidth = 240;
 
@@ -125,7 +126,7 @@ function MiniDrawer(props) {
 
   
   const [open, setOpen] = useState(false);
-  const [fragment,setfragment] = useState('HOME');
+  const [fragment,setfragment] = useState('');
 
   const Logout=() => {
     localStorage.removeItem('token');
@@ -138,6 +139,9 @@ function MiniDrawer(props) {
 
       case 'AddCourse':
         return <AddCourse />;
+      
+      case 'StudentList':
+        return <StudentList />;
 
         case 'Logout':
            {Logout()};
@@ -214,20 +218,20 @@ function MiniDrawer(props) {
             </ListItem>
             <ListItem button onClick={e => setfragment('AddCourse')}>
               <ListItemIcon style={{color:'white'}}><InboxIcon /></ListItemIcon>
-              <ListItemText primary="Add Course" />
+              <ListItemText primary="Add Subject" />
             </ListItem>
             <ListItem button >
               <ListItemIcon style={{color:'white'}}><BorderColorIcon /></ListItemIcon>
-              <ListItemText primary="Update Course" />
+              <ListItemText primary="Update Subject" />
             </ListItem>
-            <ListItem button >
+            <ListItem button onClick={e => setfragment('StudentList')}>
               <ListItemIcon style={{color:'white'}}><PeopleIcon /></ListItemIcon>
               <ListItemText primary="Students List" />
             </ListItem>
-            <ListItem button >
+            {/* <ListItem button >
               <ListItemIcon style={{color:'white'}}><ScheduleIcon /></ListItemIcon>
               <ListItemText primary="Timetable" />
-            </ListItem>                                                                           
+            </ListItem>                                                                            */}
         </List>
 
         <Divider />
@@ -264,7 +268,8 @@ const mapStateToProps = (state)=> {
     "myemail":state.email,
     "role":state.role,
     "token":state.token,
-    "course_name":state.course_name
+    "course_name":state.course_name,
+    "id":state.id
   }
 }
 

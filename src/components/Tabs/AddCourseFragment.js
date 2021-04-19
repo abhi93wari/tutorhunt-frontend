@@ -43,8 +43,10 @@ function AddCourse (props) {
             gender:info.gender,
             qualification:info.qualification,
             objective:info.objective,
-            fee:info.fee
+            fee:info.fee,
+            id:props.id
         }
+        console.log(payload.id);
         console.log(JSON.stringify(payload));
         fetch('http://localhost:8086/tutor', {
           method: 'POST',
@@ -86,11 +88,11 @@ function AddCourse (props) {
            
             <Card style={{backgroundColor:'#f4f3ef'}} className={classes.card} variant="outlined">
               <form name='courseform'>
-                  <Typography variant='h5' align='center'>ADD A COURSE</Typography>
+                  <Typography variant='h5' align='center'>ADD A SUBJECT</Typography>
                   
                   <div className='form-wrapper'>
                   <div className="form-group">
-                      <label>Course Name</label>
+                      <label>Subject Name</label>
                       <select name='course_name' type="text" className="form-control" placeholder="Enter course name" onChange={e => setcourse_name(e.target.value)} required>
                         <option value="#">select..</option>
                         <option value="Mathematics">Mathematics</option>
@@ -127,7 +129,7 @@ function AddCourse (props) {
                   </div>
   
                   <div className="form-group">
-                      <label>Course Objectice</label>
+                      <label>Subject Objectice</label>
                       <input name='objective' type="text" className="form-control" placeholder="Enter Course Objective" onChange={e => setobjective(e.target.value)} required/>
                   </div>
   
@@ -156,7 +158,8 @@ const mapStateToProps = (state)=> {
       "myemail":state.email,
       "role":state.role,
       "token":state.token,
-      "course_name":state.course_name
+      "course_name":state.course_name,
+      "id": state.id,
   }
   }
   

@@ -15,6 +15,7 @@ import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Image from '../bgimage.jpg';
 import {useHistory} from 'react-router-dom';
+import {connect} from "react-redux";
 
 function Copyright() {
   return (
@@ -73,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+function SignIn(props) {
   const classes = useStyles();
 
   const [username,setusername]=useState('');
@@ -101,7 +102,9 @@ export default function SignIn() {
                     console.log(data.jwttoken);
                     console.log(data.role);
                     console.log(data.name);
-                    
+                    console.log(data.id);
+                    {props.changeid(data.id)};
+                    console.log(props.id);
                     localStorage.setItem("token", JSON.stringify(data.jwttoken));
                     history.push("/dashboard-student");
                     
@@ -203,3 +206,20 @@ export default function SignIn() {
     </div>
   );
 }
+
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    changeid:(id)=>{
+      dispatch(
+       
+          {
+            "type":"CHANGE_ID",
+           "payload":id
+          }
+        
+      )
+    },
+  }
+}
+
+export default connect(null,mapDispatchToProps)(SignIn);

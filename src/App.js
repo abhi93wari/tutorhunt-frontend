@@ -16,6 +16,7 @@ import Protected2 from './components/Protected2';
 import Protected3 from './components/Protected3';
 import StudentDashboard from './components/dashboard-student';
 import Booking from './components/Tabs/Booking';
+import ShowSchedule from './components/Tabs/ShowSchedule';
 
 
 export default class App extends Component{
@@ -57,6 +58,8 @@ export default class App extends Component{
           <Route path={"/Booking"}
             component={Booking}
           />
+          <Route path={"/ShowSchedule"}
+          component={ShowSchedule} />
         </Switch>
         
       </div>

@@ -80,6 +80,7 @@ function SignInTutor(props) {
   const [username,setusername]=useState('');
   const [password,setpassword]=useState('');
   const [role,setrole]=useState('tutor');
+  const [id,setid]=useState('');
   let history=useHistory();
       function loginUser(credentials) {
         const payload={
@@ -91,7 +92,7 @@ function SignInTutor(props) {
         fetch('http://localhost:8086/login', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json'  
           },
           body: JSON.stringify(payload)
         })
@@ -100,8 +101,9 @@ function SignInTutor(props) {
               if(data.jwttoken !== 'T'){
                 console.log(data.name);
                 {props.changeName(data.name)};
+                {props.changeId(data.id)};
                 // this.props.changeToken(data.token)
-                // this.props.changeUser(data.username)
+                // this.props.changeUser(data.username) 
                 // this.props.changeRole(data.role)
                 // this.props.changeEmail(data.email)
                 localStorage.setItem("token", JSON.stringify(data.jwttoken));
@@ -255,6 +257,16 @@ const mapDispatchToProps = (dispatch)=>{
           {
             "type":"CHANGE_USER",
            "payload":username
+          }
+        
+      )
+    },
+    changeId:(id)=>{
+      dispatch(
+       
+          {
+            "type":"CHANGE_ID",
+           "payload":id
           }
         
       )

@@ -2,13 +2,16 @@ import React, { Component,useState,useEffect} from 'react';
 import {connect} from "react-redux";
 import Fuse from 'fuse.js';
 import axios from 'axios'
-import {Button,Grid,AppBar,Toolbar,IconButton,Typography,Container, CardContent,Card,CardMedia,TextField,CircularProgress} from '@material-ui/core'
+import {Button,Box,Grid,AppBar,Toolbar,IconButton,Typography,Container, CardContent,Card,CardMedia,TextField,CircularProgress} from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles ,useTheme} from '@material-ui/core/styles';
 import Rating from '@material-ui/lab/Rating';
 import Avatar from '@material-ui/core/Avatar';
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import {useHistory} from 'react-router-dom';
+import Table from '@material-ui/core/Table';
+import ShowSchedule from './Tabs/ShowSchedule';
+
 
 let characters = []
 
@@ -71,13 +74,14 @@ function Dashboard(props){
   const [searchval,setSearchVal] = useState("");
   const [subjects,setSubjects]  = useState([]);
   const [tutors,setTutors] = useState([]);
-
-
+  
+  const [flag,setflag]=useState(0);
 
   const Logout=() => {
     localStorage.removeItem('token');
     window.location.href = '/';
   }
+
 
   let history=useHistory();
   const Booking=  (name,cid) => {                         
@@ -114,10 +118,83 @@ function Dashboard(props){
     // {props.changeObjective(result.objective)};
     // window.location.href = '/Booking';
   }
+
+  
+  const showSchedule= () =>{
+    history.push("/ShowSchedule");
+      
+  }
+
+
+  // const Tutorlist = () =>{
+  //   console.log("hello");
+  //   <div>
+  //   <AppBar position="static">
+  //     <Toolbar>
+  //       <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+  //         <MenuIcon />
+  //       </IconButton>
+  //       <Typography variant="h6" className={classes.title}>
+  //       TutorHunt
+  //       </Typography>
+  //       <Button color="inherit" 
+  //       onClick={() => {showSchedule(props.id)}}
+  //       >Show Schedule</Button>
+  //       <Button color="inherit"
+  //       onClick={() => {Logout()}}
+  //       >logout</Button>
+  //     </Toolbar>
+  //   </AppBar>
+    
+  //   <Card style={{maxWidth: 'auto',
+  //                     marginLeft: '20%',
+  //                     marginTop: '3%',
+  //                     marginRight:'20%',
+  //                     padding: '20px 20px',
+  //                     }} variant="outlined" m={3} pt={3}
+  //                     >
+  //   <Box mt={3} alignItems='center' justifyContent="center" style={{marginLeft: '15%'}}>
+  //         <Table>
+  //           <tr>
+  //               <th><u>Name</u></th>
+  //               <th><u>Date</u></th>
+  //               <th><u>Time</u></th>
+  //             </tr>
+  //             {
+
+  //     tutorlist.map((item,index)=>{
+  //       //console.log("index is "+index);
+
+  //       return(
+
+  //               <tr>
+  //                 <th>{item.name}</th>
+  //                 <th>{item.date}</th>
+  //                 <th>{item.time}</th>
+  //               </tr>
+              
+            
+  //           );
+  //           })
+            
+  //           }
+  //           </Table>
+                  
+  //           </Box>
+  //           </Card>
+  //           </div>
+          
+  //       }
+
+    
+  
+
+
   const fetchSubjects = async ()=>{
 
     setLoading(true);
     console.log("fetching subjects");
+  
     //hit the api
     let result = await axios.get("http://localhost:8086/allcourses");
     let res = result.data;
@@ -288,6 +365,8 @@ function Dashboard(props){
                     Fee:{tutor.fee}
                   </Typography>
                   {props.changetutorid(tutor.tutor_id)}
+                  {/* {props.changestudentid()} */}
+                  
                   
                   <Rating name="disabled" value={3.5} disabled precision={0.5} size="small" />
                 </CardContent>
@@ -332,6 +411,8 @@ function Dashboard(props){
 
 
   return (
+
+  
     <>
 
 <AppBar position="static">
@@ -342,12 +423,17 @@ function Dashboard(props){
     <Typography variant="h6" className={classes.title}>
      TutorHunt
     </Typography>
+    <Button color="inherit" 
+    onClick={showSchedule}
+    >Show Schedule</Button>
     <Button color="inherit"
     onClick={() => {Logout()}}
     >logout</Button>
   </Toolbar>
 </AppBar>
 
+
+<>
 <Grid container
   direction="row"
   justify="center"
@@ -407,7 +493,8 @@ function Dashboard(props){
 
     <MainBody/>
    
-   
+   </>
+  
 
     </>
   );
@@ -437,8 +524,35 @@ const mapDispatchToProps = (dispatch)=>{
         
       )
     },
+    changeid:(id)=>{
+      dispatch(
+       
+          {
+            "type":"CHANGE_ID",
+           "payload":id
+          },
+        
+      )
+    },
+
+    changetutorlist:(tutorlist)=>{
+      dispatch(
+       
+          {
+            "type":"CHANGE_TUTORLIST",
+           "payload":tutorlist
+          },
+        
+      )
+    },
   }
 }
-export default connect(null,mapDispatchToProps)(Dashboard);
+
+const mapStateToProps = (state)=> {
+  return {
+    "id": state.id
+}
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Dashboard);
 
 

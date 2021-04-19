@@ -6,6 +6,9 @@ const iState = {
     "username":"thesandx",
     "objective":"XYZ",
     "tutorid":"123",
+    "studentid":"456",
+    "id":"789",
+    "tutorlist":[]
 }
 
 const reducer = (state = iState,action)=>{
@@ -48,6 +51,22 @@ const reducer = (state = iState,action)=>{
                 ...state,
                 "tutorid":action.payload
             }
+        case "CHANGE_STUDENTID":
+            return {
+                ...state,
+                "studentid":action.payload
+            }
+        case "CHANGE_ID":
+            return {
+                ...state,
+                "id":action.payload
+            }
+        case "CHANGE_TUTORLIST":
+            return {
+                ...state,
+                "tutorlist":action.payload
+            }
+        
 
         default:
             return state;
