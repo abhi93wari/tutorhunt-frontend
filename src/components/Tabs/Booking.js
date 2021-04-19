@@ -131,7 +131,10 @@ function BookingModule(props) {
   const [selectedDate, setSelectedDate] = useState(new Date(''));
   const [newdate, setnewdate] = useState('');
   const [slots,setSlots] = useState([]);
+<<<<<<< HEAD
   const [time, settime] = useState('');
+=======
+>>>>>>> 4459cc72a791c1a8e459a3e98a01218dae4b86f9
 
   const handleDateChange = (date) => {
     //console.log(date);
@@ -183,6 +186,7 @@ const SearchSlot=  (tutorid) => {
   }
 
 
+<<<<<<< HEAD
   const BookSlot=  (time,tutorid,id) => {                         
     const payload={
   
@@ -235,6 +239,8 @@ const SearchSlot=  (tutorid) => {
       settime(buttonValue);
       //BookSlot(e.target.value,props.tutorid);
   }
+=======
+>>>>>>> 4459cc72a791c1a8e459a3e98a01218dae4b86f9
 
   const SlotBody = () =>{
     if(slots.length===0){
@@ -247,7 +253,14 @@ const SearchSlot=  (tutorid) => {
           spacing={2}
         >
 
+<<<<<<< HEAD
           <Typography variant='h6'>No slots available.....</Typography> 
+=======
+        <Grid item xs = {2}>
+          <h5>no Slots available.....</h5>
+          
+          </Grid>
+>>>>>>> 4459cc72a791c1a8e459a3e98a01218dae4b86f9
 
         </Grid>
       );
@@ -260,6 +273,7 @@ const SearchSlot=  (tutorid) => {
         //console.log("index is "+index);
 
         return(
+<<<<<<< HEAD
           
           
             <Grid item xs={2} sm={2}>
@@ -277,6 +291,26 @@ const SearchSlot=  (tutorid) => {
 
         );
     
+=======
+          <Grid item xs = {2}>
+              <Box mt={6} direction="column" alignItems="center" justify="center">
+              <Button
+                   variant="contained"
+                    color="primary"
+                   size="large"
+                   onClick={(data) => console.log()}
+                  >
+                    {slot}
+                  </Button>
+                  </Box>
+                  </Grid>
+
+        );
+      
+
+        
+
+>>>>>>> 4459cc72a791c1a8e459a3e98a01218dae4b86f9
       }));
     }
   }
@@ -337,6 +371,7 @@ const SearchSlot=  (tutorid) => {
               <Box mt={6} direction="column" alignItems="center" justify="center">
                 <Typography variant='h5'>Available Slots :</Typography>
               </Box>
+<<<<<<< HEAD
               
               <Box mt={5} direction="column" alignItems="center" justify="center">
               <Grid container spacing={6}>
@@ -353,6 +388,10 @@ const SearchSlot=  (tutorid) => {
                     Book Slot
                 </Button>
               </Box>
+=======
+
+              <SlotBody/>
+>>>>>>> 4459cc72a791c1a8e459a3e98a01218dae4b86f9
               
                
         </Card>
