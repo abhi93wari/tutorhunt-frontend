@@ -47,6 +47,7 @@ export default class App extends Component{
             
           <Route path="/sign-up" component={SignUp} />
           <Route path="/sign-up-tutor" component={SignUp_Tutor} />
+          
           <Protected2 exact
             path={"/dashboard"}
             component={Dashboard}

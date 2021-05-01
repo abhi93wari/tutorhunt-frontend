@@ -117,11 +117,11 @@ export default class SignUp extends Component {
 
                 <button type="submit" className="btn btn-primary btn-block">Sign-Up</button>
                 <p className="forgot-password text-right">
-                    <a href="/sign-in">Already registered ? Sign-In</a>
+                    <a href="/sign-in-student">Already registered ? Sign-In</a>
                 </p>
 
                 <Switch>
-                    <Route path="/sign-in" component={Login} />
+                    <Route path="/sign-in-student" component={Login} />
                 </Switch>
             </form>
             </div>
