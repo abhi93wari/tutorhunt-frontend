@@ -22,7 +22,7 @@ import ShowSchedule from './components/Tabs/ShowSchedule';
 export default class App extends Component{
   constructor(){
     super();
-    process.title = myApp;
+    //process.title = myApp;
   }
   
  
