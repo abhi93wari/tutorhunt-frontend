@@ -38,7 +38,7 @@ jobs:
 
 
   build:
-
+    needs: [docker]
     runs-on: ubuntu-latest
     steps:
 
