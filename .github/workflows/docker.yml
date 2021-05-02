@@ -53,7 +53,7 @@ jobs:
 
 
   digest:
-    
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
 
