@@ -12,7 +12,7 @@ import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import {connect} from "react-redux";
 import logo from './dash-icon.png';
 import Button from '@material-ui/core/Button';
-import { propTypes } from 'react-bootstrap/esm/Image';
+// import { propTypes } from 'react-bootstrap/esm/Image';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import SettingsIcon from '@material-ui/icons/Settings';
 import HomeIcon from '@material-ui/icons/Home';
