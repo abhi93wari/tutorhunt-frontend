@@ -24,6 +24,7 @@ import Card from '@material-ui/core/Card';
 import AddCourse from './Tabs/AddCourseFragment';
 import HomeFragment from './Tabs/HomeFragment';
 import StudentList from './Tabs/StudentList';
+import UpdateSubject from './Tabs/UpdateCoursefragment';
 
 const drawerWidth = 240;
 
@@ -142,6 +143,9 @@ function MiniDrawer(props) {
       
       case 'StudentList':
         return <StudentList />;
+      
+      case "UpdateCourse":
+        return <UpdateSubject />;
 
         case 'Logout':
            {Logout()};
@@ -220,7 +224,7 @@ function MiniDrawer(props) {
               <ListItemIcon style={{color:'white'}}><InboxIcon /></ListItemIcon>
               <ListItemText primary="Add Subject" />
             </ListItem>
-            <ListItem button >
+            <ListItem button onClick={e => setfragment('UpdateCourse')}>
               <ListItemIcon style={{color:'white'}}><BorderColorIcon /></ListItemIcon>
               <ListItemText primary="Update Subject" />
             </ListItem>

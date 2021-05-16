@@ -223,6 +223,18 @@ const mapDispatchToProps = (dispatch)=>{
         
       )
     },
+
+    changeTutorid:(tutorid)=>{
+      dispatch(
+       
+          {
+            "type":"CHANGE_T",
+           "payload":tutorid
+          }
+        
+      )
+    },
+
     changeToken:(token)=>{
       dispatch(
        
