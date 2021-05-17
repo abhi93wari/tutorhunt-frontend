@@ -15,8 +15,21 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a job called "build"
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Repo 
+        uses: actions/checkout@v2
+      - name: Install NPM
+        run: npm install
+      - name: Make Build
+        run: npm run build
+      - name: Run the Project 
+        run: npm start & npx wait-on http://localhost:3000
+
   docker-login:
     # The type of runner that the job will run on
+    needs: [build]
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -79,5 +92,9 @@ jobs:
 
       - name: Image Pull
         run: docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/tutor-frontend-actions:latest
+      - name: Show Images
+        run: docker image ls
+      - name: Docker run
+        run: docker run -itd ${{ secrets.DOCKER_HUB_USERNAME }}/tutor-frontend-actions:latest
 
       
