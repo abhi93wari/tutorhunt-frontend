@@ -80,7 +80,7 @@ jobs:
         run: echo ${{ steps.docker_build.outputs.digest }}
 
 
-  Pull-from-dockerhub:
+  Pull-from-dockerhub-and-run-tutorhunt-frontend:
     needs: [build-and-push-to-dockerhub]
     runs-on: ubuntu-latest
     steps:
