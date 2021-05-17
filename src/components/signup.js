@@ -146,7 +146,7 @@ function SignUpStudent(props) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign Up as Tutor
+          Sign Up as Student
         </Typography>
         <form className={classes.form} noValidate>
 
