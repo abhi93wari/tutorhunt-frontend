@@ -46,7 +46,7 @@ function UpdateCourse (props) {
             tutorid:props.tutorid
         }
         console.log(JSON.stringify(payload));
-        fetch('http://localhost:8083/Tutor/updatesubject', {
+        fetch('http://localhost:8083/Course/updatesubject', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
