@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 function UpdateCourse (props) {
 
     const classes=useStyles();
+    const [course_name,setcourse_name] = useState('');
     const [age,setage] = useState(0);
     const [gender,setgender] = useState('');
     const [qualification,setqualification] = useState('');
@@ -37,6 +38,7 @@ function UpdateCourse (props) {
     function loginUser(info) {
         const payload={
             name:props.myname,
+            coursename:info.course_name,
             age:info.age,
             gender:info.gender,
             qualification:info.qualification,
@@ -70,6 +72,7 @@ function UpdateCourse (props) {
        function handleSubmit(e) {
           e.preventDefault();
           loginUser({
+            course_name:course_name,
             age:age,
             gender:gender,
             qualification:qualification,
@@ -85,7 +88,17 @@ function UpdateCourse (props) {
                   <Typography variant='h5' align='center'>UPDATE SUBJECT</Typography>
                   
                   <div className='form-wrapper'>
-  
+                  <div className="form-group">
+                      <label>Subject Name</label>
+                      <select name='course_name' type="text" className="form-control" placeholder="Enter course name" onChange={e => setcourse_name(e.target.value)} required>
+                        <option value="#">select..</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="ReactJs">ReactJs</option>
+                        <option value="SpringBoot">SpringBoot</option>                     
+                      </select>
+                  </div>
                   <div className="form-group">
                       <label>Age</label>
                       <input name='age' type="number" className="form-control" placeholder="Enter Age" onChange={e => setage(e.target.value)} required/>
